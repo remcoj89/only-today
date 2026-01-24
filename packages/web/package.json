@@ -1,0 +1,9 @@
+{
+  "name": "@hemera/web",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "build": "tsc -b",
+    "test": "vitest"
+  }
+}

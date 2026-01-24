@@ -1,0 +1,23 @@
+{
+  "name": "hemera-journal",
+  "private": true,
+  "version": "0.0.1",
+  "packageManager": "pnpm@9.12.3",
+  "scripts": {
+    "build": "tsc -b",
+    "test": "vitest",
+    "lint": "eslint . --ext .ts",
+    "format": "prettier --write ."
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "@typescript-eslint/eslint-plugin": "^8.15.0",
+    "@typescript-eslint/parser": "^8.15.0",
+    "eslint": "^9.16.0",
+    "eslint-config-prettier": "^9.1.0",
+    "prettier": "^3.4.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  }
+}
