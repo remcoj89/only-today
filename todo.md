@@ -260,102 +260,102 @@
 ## Phase 3: Document System Core
 
 ### Step 3.1: Document Repository Layer
-- [ ] Create `packages/api/src/types/repository.ts`
-  - [ ] Define repository interfaces
-  - [ ] Define query options
-- [ ] Create `packages/api/src/repositories/documentRepository.ts`
-  - [ ] Implement `findById()`
-  - [ ] Implement `findByKey()`
-  - [ ] Implement `findByUser()`
-  - [ ] Implement `create()`
-  - [ ] Implement `update()`
-  - [ ] Implement `upsert()`
-- [ ] Create `packages/api/src/repositories/__tests__/documentRepository.test.ts`
-- [ ] Run tests and verify repository works
+- [x] Create `packages/api/src/types/repository.ts`
+  - [x] Define repository interfaces
+  - [x] Define query options
+- [x] Create `packages/api/src/repositories/documentRepository.ts`
+  - [x] Implement `findById()`
+  - [x] Implement `findByKey()`
+  - [x] Implement `findByUser()`
+  - [x] Implement `create()`
+  - [x] Implement `update()`
+  - [x] Implement `upsert()`
+- [x] Create `packages/api/src/repositories/__tests__/documentRepository.test.ts`
+- [x] Run tests and verify repository works
 
 ### Step 3.2: Document Validation Service
-- [ ] Create `packages/api/src/schemas/documents.ts`
-  - [ ] Define `DayStartSchema`
-  - [ ] Define `OneThingSchema`
-  - [ ] Define `TopThreeItemSchema`
-  - [ ] Define `PlanningSchema`
-  - [ ] Define `LifePillarsSchema`
-  - [ ] Define `ReflectionSchema`
-  - [ ] Define `DayCloseSchema`
-  - [ ] Define `DayContentSchema`
-  - [ ] Define `WeekContentSchema`
-  - [ ] Define `MonthContentSchema`
-  - [ ] Define `LifeWheelSchema`
-  - [ ] Define `QuarterGoalSchema`
-  - [ ] Define `QuarterContentSchema`
-- [ ] Create `packages/api/src/services/documentValidation.ts`
-  - [ ] Implement `validateDocument(docType, content)`
-  - [ ] Implement `validateDayContent()`
-  - [ ] Implement `validateWeekContent()`
-  - [ ] Implement `validateMonthContent()`
-  - [ ] Implement `validateQuarterContent()`
-- [ ] Create `packages/api/src/services/__tests__/documentValidation.test.ts`
-- [ ] Run tests and verify validation works
+- [x] Create `packages/api/src/schemas/documents.ts`
+  - [x] Define `DayStartSchema`
+  - [x] Define `OneThingSchema`
+  - [x] Define `TopThreeItemSchema`
+  - [x] Define `PlanningSchema`
+  - [x] Define `LifePillarsSchema`
+  - [x] Define `ReflectionSchema`
+  - [x] Define `DayCloseSchema`
+  - [x] Define `DayContentSchema`
+  - [x] Define `WeekContentSchema`
+  - [x] Define `MonthContentSchema`
+  - [x] Define `LifeWheelSchema`
+  - [x] Define `QuarterGoalSchema`
+  - [x] Define `QuarterContentSchema`
+- [x] Create `packages/api/src/services/documentValidation.ts`
+  - [x] Implement `validateDocument(docType, content)`
+  - [x] Implement `validateDayContent()`
+  - [x] Implement `validateWeekContent()`
+  - [x] Implement `validateMonthContent()`
+  - [x] Implement `validateQuarterContent()`
+- [x] Create `packages/api/src/services/__tests__/documentValidation.test.ts`
+- [x] Run tests and verify validation works
 
 ### Step 3.3: Day Availability & Locking Rules
-- [ ] Create `packages/api/src/utils/dateUtils.ts`
-  - [ ] Implement `getDayStart()`
-  - [ ] Implement `getDayEnd()`
-  - [ ] Implement `formatDateKey()`
-  - [ ] Implement `parseDateKey()`
-- [ ] Create `packages/api/src/services/dayAvailability.ts`
-  - [ ] Implement `isDayAvailable()`
-  - [ ] Implement `isDayEditable()`
-  - [ ] Implement `isDayLocked()`
-  - [ ] Implement `getDayStatus()`
-  - [ ] Implement `shouldAutoClose()`
-- [ ] Create `packages/api/src/services/__tests__/dayAvailability.test.ts`
-- [ ] Run tests and verify availability rules work
+- [x] Create `packages/api/src/utils/dateUtils.ts`
+  - [x] Implement `getDayStart()`
+  - [x] Implement `getDayEnd()`
+  - [x] Implement `formatDateKey()`
+  - [x] Implement `parseDateKey()`
+- [x] Create `packages/api/src/services/dayAvailability.ts`
+  - [x] Implement `isDayAvailable()`
+  - [x] Implement `isDayEditable()`
+  - [x] Implement `isDayLocked()`
+  - [x] Implement `getDayStatus()`
+  - [x] Implement `shouldAutoClose()`
+- [x] Create `packages/api/src/services/__tests__/dayAvailability.test.ts`
+- [x] Run tests and verify availability rules work
 
 ### Step 3.4: Document Service Layer
-- [ ] Create `packages/api/src/services/documentService.ts`
-  - [ ] Implement `getDocument()`
-  - [ ] Implement `saveDocument()`
-  - [ ] Implement `closeDay()`
-  - [ ] Implement `autoClosePendingDays()`
-- [ ] Create `packages/api/src/services/statusSummaryService.ts`
-  - [ ] Implement `updateSummary()`
-- [ ] Create `packages/api/src/services/__tests__/documentService.test.ts`
-- [ ] Run tests and verify document service works
+- [x] Create `packages/api/src/services/documentService.ts`
+  - [x] Implement `getDocument()`
+  - [x] Implement `saveDocument()`
+  - [x] Implement `closeDay()`
+  - [x] Implement `autoClosePendingDays()`
+- [x] Create `packages/api/src/services/statusSummaryService.ts`
+  - [x] Implement `updateSummary()`
+- [x] Create `packages/api/src/services/__tests__/documentService.test.ts`
+- [x] Run tests and verify document service works
 
 ### Step 3.5: Last-Write-Wins Conflict Resolution
-- [ ] Create `packages/api/src/services/conflictResolution.ts`
-  - [ ] Implement `resolveConflict()`
-  - [ ] Implement `validateClockSkew()`
-- [ ] Update `packages/api/src/services/documentService.ts`
-  - [ ] Integrate conflict resolution in `saveDocument()`
-- [ ] Create `packages/api/src/services/__tests__/conflictResolution.test.ts`
-- [ ] Run tests and verify LWW works
+- [x] Create `packages/api/src/services/conflictResolution.ts`
+  - [x] Implement `resolveConflict()`
+  - [x] Implement `validateClockSkew()`
+- [x] Update `packages/api/src/services/documentService.ts`
+  - [x] Integrate conflict resolution in `saveDocument()`
+- [x] Create `packages/api/src/services/__tests__/conflictResolution.test.ts`
+- [x] Run tests and verify LWW works
 
 ### Step 3.6: Document API Endpoints
-- [ ] Update `packages/api/src/schemas/documents.ts`
-  - [ ] Add document params schema
-  - [ ] Add document update schema
-  - [ ] Add close day schema
-  - [ ] Add list query schema
-- [ ] Create `packages/api/src/routes/documents.ts`
-  - [ ] Implement `GET /documents/:docType/:docKey`
-  - [ ] Implement `PUT /documents/:docType/:docKey`
-  - [ ] Implement `POST /documents/:docType/:docKey/close`
-  - [ ] Implement `GET /documents`
-- [ ] Wire up routes in `server.ts`
-- [ ] Create `packages/api/src/routes/__tests__/documents.test.ts`
-- [ ] Run tests and verify endpoints work
+- [x] Update `packages/api/src/schemas/documents.ts`
+  - [x] Add document params schema
+  - [x] Add document update schema
+  - [x] Add close day schema
+  - [x] Add list query schema
+- [x] Create `packages/api/src/routes/documents.ts`
+  - [x] Implement `GET /documents/:docType/:docKey`
+  - [x] Implement `PUT /documents/:docType/:docKey`
+  - [x] Implement `POST /documents/:docType/:docKey/close`
+  - [x] Implement `GET /documents`
+- [x] Wire up routes in `server.ts`
+- [x] Create `packages/api/src/routes/__tests__/documents.test.ts`
+- [x] Run tests and verify endpoints work
 
 ### Step 3.7: Document System Integration Test
-- [ ] Create `packages/api/src/__tests__/documents.integration.test.ts`
-  - [ ] Test complete day lifecycle
-  - [ ] Test day locking
-  - [ ] Test conflict resolution
-  - [ ] Test auto-close
-  - [ ] Test quarter Start Strong
-- [ ] Run all tests
-- [ ] Verify document system complete
+- [x] Create `packages/api/src/__tests__/documents.integration.test.ts`
+  - [x] Test complete day lifecycle
+  - [x] Test day locking
+  - [x] Test conflict resolution
+  - [x] Test auto-close
+  - [x] Test quarter Start Strong
+- [x] Run all tests
+- [x] Verify document system complete
 
 ---
 
