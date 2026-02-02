@@ -1,4 +1,4 @@
-import fs from "node:fs/promises";
+import * as fs from "node:fs/promises";
 import path from "node:path";
 import { Client } from "pg";
 import { describe, expect, it } from "vitest";
@@ -14,7 +14,11 @@ async function runMigrations(client: Client) {
   const files = (await fs.readdir(migrationsDir)).sort();
   for (const file of files) {
     const sql = await fs.readFile(path.join(migrationsDir, file), "utf8");
-    await client.query(sql);
+    try {
+      await client.query(sql);
+    } catch (error) {
+      throw error;
+    }
   }
 }
 
@@ -26,7 +30,11 @@ describe("database schema", () => {
     }
 
     const client = new Client({ connectionString: databaseUrl });
-    await client.connect();
+    try {
+      await client.connect();
+    } catch (error) {
+      throw error;
+    }
 
     await runMigrations(client);
 
@@ -136,5 +144,5 @@ describe("database schema", () => {
     }
 
     await client.end();
-  });
+  }, 20000);
 });

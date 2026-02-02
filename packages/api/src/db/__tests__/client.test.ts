@@ -15,21 +15,21 @@ describe("supabase clients", () => {
     const supabaseUrl = requireEnv("SUPABASE_URL");
     const anonKey = requireEnv("SUPABASE_ANON_KEY");
     const serviceRoleKey = requireEnv("SUPABASE_SERVICE_ROLE_KEY");
-    const testEmail = requireEnv("SUPABASE_TEST_USER_EMAIL");
-    const testPassword = requireEnv("SUPABASE_TEST_USER_PASSWORD");
+    const testEmail = `hemera.test+${Date.now()}@example.com`;
+    const testPassword = "TestPassword!123";
 
     const admin = createClient(supabaseUrl, serviceRoleKey, {
       auth: { persistSession: false }
     });
 
-    const { data: createdUser } = await admin.auth.admin.createUser({
+    const { data: createdUser, error: createUserError } = await admin.auth.admin.createUser({
       email: testEmail,
       password: testPassword,
       email_confirm: true
     });
 
-    if (!createdUser.user) {
-      throw new Error("Failed to create test user");
+    if (createUserError || !createdUser.user) {
+      throw new Error(createUserError?.message ?? "Failed to create test user");
     }
 
     const anon = createClient(supabaseUrl, anonKey, {
@@ -47,14 +47,15 @@ describe("supabase clients", () => {
 
     const adminClient = getSupabaseAdminClient();
 
-    const { data: otherUser } = await adminClient.auth.admin.createUser({
-      email: `partner+${Date.now()}@example.com`,
-      password: "TestPassword!123",
-      email_confirm: true
-    });
+    const { data: otherUser, error: otherUserError } =
+      await adminClient.auth.admin.createUser({
+        email: `partner+${Date.now()}@example.com`,
+        password: "TestPassword!123",
+        email_confirm: true
+      });
 
-    if (!otherUser.user) {
-      throw new Error("Failed to create partner user");
+    if (otherUserError || !otherUser.user) {
+      throw new Error(otherUserError?.message ?? "Failed to create partner user");
     }
 
     await adminClient.from("user_settings").upsert({

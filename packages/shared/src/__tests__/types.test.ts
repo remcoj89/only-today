@@ -9,7 +9,9 @@ import {
   DocumentBase,
   ErrorCode,
   MonthStartContent,
+  MonthGoal,
   QuarterStartContent,
+  QuarterGoal,
   SubscriptionStatus,
   TaskItem,
   UserSettings,
@@ -74,27 +76,55 @@ describe("shared types", () => {
     };
 
     const week: WeekStartContent = {
-      focusTheme: "Momentum",
-      keyOutcomes: ["Ship core API"],
-      obstacles: ["Time"],
-      supportNeeded: ["Accountability"],
-      weeklyHabits: ["Daily review"]
+      weeklyGoals: [
+        {
+          id: "week-goal-1",
+          title: "Ship core API",
+          description: "Finish Phase 1",
+          linkedMonthGoals: ["month-goal-1"],
+          progress: 20
+        }
+      ]
+    };
+
+    const monthGoal: MonthGoal = {
+      id: "month-goal-1",
+      title: "Launch beta",
+      description: "Prepare beta release",
+      linkedQuarterGoals: ["quarter-goal-1"],
+      progress: 10
     };
 
     const month: MonthStartContent = {
-      focusTheme: "Consistency",
-      keyOutcomes: ["20 journal entries"],
-      growthAreas: ["Sleep"],
-      risks: ["Travel"],
-      monthlyHabits: ["Morning review"]
+      monthlyGoals: [monthGoal]
+    };
+
+    const quarterGoal: QuarterGoal = {
+      id: "quarter-goal-1",
+      title: "Build Hemera MVP",
+      smartDefinition: "Ship working backend by end of quarter",
+      whatIsDifferent: "Consistent daily progress",
+      consequencesIfNot: "Delayed launch",
+      rewardIfAchieved: "Public beta",
+      progress: 15
     };
 
     const quarter: QuarterStartContent = {
-      vision: "Build Hemera MVP",
-      keyOutcomes: ["Launch beta"],
-      strategicProjects: ["Mobile app"],
-      risks: ["Scope"],
-      successMetrics: ["100 active users"]
+      lifeWheel: {
+        work: 7,
+        fun: 6,
+        social: 5,
+        giving: 4,
+        money: 6,
+        growth: 8,
+        health: 7,
+        love: 6
+      },
+      quarterGoals: [
+        quarterGoal,
+        { ...quarterGoal, id: "quarter-goal-2" },
+        { ...quarterGoal, id: "quarter-goal-3" }
+      ]
     };
 
     const response: ApiResponse<{ ok: boolean }> = {
@@ -108,9 +138,9 @@ describe("shared types", () => {
     expect(pair.id).toBe("pair-1");
     expect(checkin.message).toBe("Great job today");
     expect(summary.dayClosed).toBe(false);
-    expect(week.focusTheme).toBe("Momentum");
-    expect(month.focusTheme).toBe("Consistency");
-    expect(quarter.vision).toBe("Build Hemera MVP");
+    expect(week.weeklyGoals[0].title).toBe("Ship core API");
+    expect(month.monthlyGoals[0].title).toBe("Launch beta");
+    expect(quarter.lifeWheel.growth).toBe(8);
     expect(response.success).toBe(true);
 
     const subscription: SubscriptionStatus = SubscriptionStatus.Free;
@@ -126,10 +156,10 @@ describe("shared types", () => {
       timezone: "UTC"
     };
 
-    // @ts-expect-error invalid doc type
     const badDocument: DocumentBase = {
       id: "doc-1",
       userId: "user-1",
+      // @ts-expect-error invalid doc type
       docType: "year",
       docKey: "2026",
       schemaVersion: 1,

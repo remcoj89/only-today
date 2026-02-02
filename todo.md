@@ -6,11 +6,11 @@
 
 ## Pre-Development Setup
 
-- [ ] Create Supabase project and note credentials
-- [ ] Set up development environment (Node.js 20+, pnpm)
-- [ ] Create GitHub repository
-- [ ] Set up CI/CD pipeline (GitHub Actions recommended)
-- [ ] Create `.env.local` with Supabase credentials for development
+- [x] Create Supabase project and note credentials
+- [x] Set up development environment (Node.js 20+, pnpm)
+- [x] Create GitHub repository
+- [x] Set up CI/CD pipeline (GitHub Actions recommended)
+- [x] Create `.env.local` with Supabase credentials for development
 - [x] Create `.env.test` with test database credentials
 
 ---
@@ -18,7 +18,7 @@
 ## Phase 1: Foundation & Database Setup
 
 ### Step 1.1: Project Initialization & Tooling
-- [ ] Initialize pnpm workspace with `pnpm init`
+- [x] Initialize pnpm workspace with `pnpm init`
 - [x] Create `pnpm-workspace.yaml` with packages config
 - [x] Create root `package.json` with workspace scripts
 - [x] Create root `tsconfig.json` with strict mode and project references
@@ -35,9 +35,9 @@
 - [x] Create `packages/shared/tsconfig.json`
 - [x] Create `packages/shared/src/index.ts` placeholder
 - [x] Create `packages/web/` directory structure (placeholder)
-- [ ] Verify `pnpm install` succeeds
-- [ ] Verify `pnpm -r build` succeeds
-- [ ] Verify `pnpm test` runs (no tests yet)
+- [x] Verify `pnpm install` succeeds
+- [x] Verify `pnpm -r build` succeeds
+- [x] Verify `pnpm test` runs (no tests yet)
 
 ### Step 1.2: Shared Types & Constants
 - [x] Create `packages/shared/src/types/user.ts`
@@ -47,17 +47,17 @@
   - [x] Define `DocType` enum
   - [x] Define `DocStatus` enum
   - [x] Define base `Document` interface
-  - [ ] Define `DayStartContent` interface
-  - [ ] Define `PlanningContent` interface (EEN + DRIE)
-  - [ ] Define `LifePillarsContent` interface
-  - [ ] Define `DayCloseContent` interface
-  - [ ] Define `ReflectionContent` interface
+  - [x] Define `DayStartContent` interface
+  - [x] Define `PlanningContent` interface (EEN + DRIE)
+  - [x] Define `LifePillarsContent` interface
+  - [x] Define `DayCloseContent` interface
+  - [x] Define `ReflectionContent` interface
   - [x] Define `DayContent` interface (combines all day sections)
   - [x] Define `WeekStartContent` interface
   - [x] Define `MonthStartContent` interface
   - [x] Define `QuarterStartContent` interface (Start Strong)
-  - [ ] Define `LifeWheelScores` interface (8 dimensions)
-  - [ ] Define `QuarterGoal` interface
+  - [x] Define `LifeWheelScores` interface (8 dimensions)
+  - [x] Define `QuarterGoal` interface
 - [x] Create `packages/shared/src/types/accountability.ts`
   - [x] Define `AccountabilityPair` interface
   - [x] Define `DailyCheckin` interface
@@ -76,7 +76,7 @@
   - [x] Define `CHECKIN_MAX_LENGTH`
 - [x] Create `packages/shared/src/index.ts` with all exports
 - [x] Create `packages/shared/src/__tests__/types.test.ts`
-- [ ] Run tests and verify all pass
+- [x] Run tests and verify all pass
 
 ### Step 1.3: Database Schema Design
 - [x] Create `packages/api/src/db/migrations/` directory
@@ -104,9 +104,9 @@
   - [x] Create policy: partners read summary
   - [x] Create policy: partners create/read checkins
 - [x] Create `packages/api/src/db/__tests__/schema.test.ts`
-- [ ] Run migrations against test database
-- [ ] Verify all tables created correctly
-- [ ] Verify RLS policies enabled
+- [x] Run migrations against test database
+- [x] Verify all tables created correctly
+- [x] Verify RLS policies enabled
 
 ### Step 1.4: Database Connection & Client Setup
 - [x] Create `packages/api/src/config/index.ts`
@@ -129,8 +129,8 @@
   - [x] Create accountability pair
   - [x] Create sample checkins
 - [x] Create `packages/api/src/db/__tests__/client.test.ts`
-- [ ] Run tests and verify connection works
-- [ ] Verify RLS prevents cross-user access
+- [x] Run tests and verify connection works
+- [x] Verify RLS prevents cross-user access
 
 ### Step 1.5: Error Handling Infrastructure
 - [x] Create `packages/api/src/errors/AppError.ts`
@@ -150,10 +150,10 @@
   - [x] Add error logging
 - [x] Create `packages/api/src/errors/index.ts`
 - [x] Create `packages/api/src/errors/__tests__/errors.test.ts`
-- [ ] Run tests and verify error handling works
+- [x] Run tests and verify error handling works
 
 ### Step 1.6: API Server Foundation
-- [ ] Install Express and dependencies
+- [x] Install Express and dependencies
 - [x] Create `packages/api/src/server.ts`
   - [x] Configure JSON body parsing
   - [x] Configure CORS
@@ -172,87 +172,87 @@
   - [x] Generic Zod validation middleware
   - [x] Validate body, params, query
 - [x] Create `packages/api/src/__tests__/server.test.ts`
-- [ ] Run tests and verify server works
-- [ ] Manual test with curl/Postman
+- [x] Run tests and verify server works
+- [x] Manual test with curl/Postman
 
 ---
 
 ## Phase 2: Authentication & User Management
 
 ### Step 2.1: User Registration & Login
-- [ ] Create `packages/api/src/schemas/auth.ts`
-  - [ ] Define `registerSchema`
-  - [ ] Define `loginSchema`
-  - [ ] Define `refreshSchema`
-- [ ] Create `packages/api/src/services/userService.ts`
-  - [ ] Implement `createUserSettings()`
-  - [ ] Implement `getUserSettings()`
-  - [ ] Implement `updateUserSettings()`
-- [ ] Create `packages/api/src/routes/auth.ts`
-  - [ ] Implement `POST /auth/register`
-  - [ ] Implement `POST /auth/login`
-  - [ ] Implement `POST /auth/logout`
-  - [ ] Implement `POST /auth/refresh`
-- [ ] Create `packages/api/src/routes/__tests__/auth.test.ts`
-- [ ] Run tests and verify auth works
+- [x] Create `packages/api/src/schemas/auth.ts`
+  - [x] Define `registerSchema`
+  - [x] Define `loginSchema`
+  - [x] Define `refreshSchema`
+- [x] Create `packages/api/src/services/userService.ts`
+  - [x] Implement `createUserSettings()`
+  - [x] Implement `getUserSettings()`
+  - [x] Implement `updateUserSettings()`
+- [x] Create `packages/api/src/routes/auth.ts`
+  - [x] Implement `POST /auth/register`
+  - [x] Implement `POST /auth/login`
+  - [x] Implement `POST /auth/logout`
+  - [x] Implement `POST /auth/refresh`
+- [x] Create `packages/api/src/routes/__tests__/auth.test.ts`
+- [x] Run tests and verify auth works
 
 ### Step 2.2: User Settings Management
-- [ ] Create `packages/api/src/schemas/settings.ts`
-  - [ ] Define `userSettingsUpdateSchema`
-  - [ ] Add time format validation (HH:MM)
-  - [ ] Add timezone validation
-- [ ] Update `packages/api/src/services/userService.ts`
-  - [ ] Add timezone validation helper
-- [ ] Create `packages/api/src/routes/settings.ts`
-  - [ ] Implement `GET /settings`
-  - [ ] Implement `PATCH /settings`
-- [ ] Create `packages/api/src/routes/__tests__/settings.test.ts`
-- [ ] Run tests and verify settings work
+- [x] Create `packages/api/src/schemas/settings.ts`
+  - [x] Define `userSettingsUpdateSchema`
+  - [x] Add time format validation (HH:MM)
+  - [x] Add timezone validation
+- [x] Update `packages/api/src/services/userService.ts`
+  - [x] Add timezone validation helper
+- [x] Create `packages/api/src/routes/settings.ts`
+  - [x] Implement `GET /settings`
+  - [x] Implement `PATCH /settings`
+- [x] Create `packages/api/src/routes/__tests__/settings.test.ts`
+- [x] Run tests and verify settings work
 
 ### Step 2.3: Admin User Management
-- [ ] Create `packages/api/src/middleware/adminAuth.ts`
-  - [ ] Verify admin claim/email
-  - [ ] Return 403 for non-admin
-- [ ] Create `packages/api/src/services/adminService.ts`
-  - [ ] Implement `createUser()`
-  - [ ] Implement `blockUser()`
-  - [ ] Implement `unblockUser()`
-  - [ ] Implement `deleteUser()`
-  - [ ] Implement `logAdminAction()`
-- [ ] Create `packages/api/src/routes/admin.ts`
-  - [ ] Implement `POST /admin/users`
-  - [ ] Implement `POST /admin/users/:id/block`
-  - [ ] Implement `POST /admin/users/:id/unblock`
-  - [ ] Implement `DELETE /admin/users/:id`
-- [ ] Verify NO endpoint to read user documents
-- [ ] Create `packages/api/src/routes/__tests__/admin.test.ts`
-- [ ] Run tests and verify admin functions work
+- [x] Create `packages/api/src/middleware/adminAuth.ts`
+  - [x] Verify admin claim/email
+  - [x] Return 403 for non-admin
+- [x] Create `packages/api/src/services/adminService.ts`
+  - [x] Implement `createUser()`
+  - [x] Implement `blockUser()`
+  - [x] Implement `unblockUser()`
+  - [x] Implement `deleteUser()`
+  - [x] Implement `logAdminAction()`
+- [x] Create `packages/api/src/routes/admin.ts`
+  - [x] Implement `POST /admin/users`
+  - [x] Implement `POST /admin/users/:id/block`
+  - [x] Implement `POST /admin/users/:id/unblock`
+  - [x] Implement `DELETE /admin/users/:id`
+- [x] Verify NO endpoint to read user documents
+- [x] Create `packages/api/src/routes/__tests__/admin.test.ts`
+- [x] Run tests and verify admin functions work
 
 ### Step 2.4: Session & Token Management
-- [ ] Update `packages/api/src/middleware/auth.ts`
-  - [ ] Check token expiration
-  - [ ] Return specific error for expired tokens
-  - [ ] Add rate limiting for failed attempts
-- [ ] Create `packages/api/src/services/sessionService.ts`
-  - [ ] Implement `validateSession()`
-  - [ ] Implement `getUserFromSession()`
-  - [ ] Implement `trackDeviceSession()`
-- [ ] Create `packages/api/src/routes/devices.ts`
-  - [ ] Implement `GET /devices`
-  - [ ] Implement `DELETE /devices/:deviceId`
-- [ ] Create `packages/api/src/routes/__tests__/session.test.ts`
-- [ ] Run tests and verify session management works
+- [x] Update `packages/api/src/middleware/auth.ts`
+  - [x] Check token expiration
+  - [x] Return specific error for expired tokens
+  - [x] Add rate limiting for failed attempts
+- [x] Create `packages/api/src/services/sessionService.ts`
+  - [x] Implement `validateSession()`
+  - [x] Implement `getUserFromSession()`
+  - [x] Implement `trackDeviceSession()`
+- [x] Create `packages/api/src/routes/devices.ts`
+  - [x] Implement `GET /devices`
+  - [x] Implement `DELETE /devices/:deviceId`
+- [x] Create `packages/api/src/routes/__tests__/session.test.ts`
+- [x] Run tests and verify session management works
 
 ### Step 2.5: Wire Up Auth Routes & Integration Test
-- [ ] Update `packages/api/src/server.ts`
-  - [ ] Mount `/auth` routes
-  - [ ] Mount `/settings` routes (protected)
-  - [ ] Mount `/admin` routes (admin protected)
-  - [ ] Mount `/devices` routes (protected)
-- [ ] Create `packages/api/src/routes/index.ts`
-- [ ] Create `packages/api/src/__tests__/auth.integration.test.ts`
-  - [ ] Test complete user lifecycle (11 steps)
-- [ ] Run all tests
+- [x] Update `packages/api/src/server.ts`
+  - [x] Mount `/auth` routes
+  - [x] Mount `/settings` routes (protected)
+  - [x] Mount `/admin` routes (admin protected)
+  - [x] Mount `/devices` routes (protected)
+- [x] Create `packages/api/src/routes/index.ts`
+- [x] Create `packages/api/src/__tests__/auth.integration.test.ts`
+  - [x] Test complete user lifecycle (11 steps)
+- [x] Run all tests
 - [ ] Manual testing verification
 
 ---

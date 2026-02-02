@@ -13,9 +13,16 @@ export enum DocStatus {
 
 export type TaskItem = {
   title: string;
-  description?: string;
+  description: string;
   pomodorosPlanned: number;
   pomodorosDone: number;
+};
+
+export type OtherTaskItem = {
+  title: string;
+  description?: string;
+  pomodorosPlanned?: number;
+  pomodorosDone?: number;
 };
 
 export interface DocumentBase {
@@ -31,62 +38,98 @@ export interface DocumentBase {
   deviceId?: string;
 }
 
+export interface DayStartContent {
+  slept8Hours: boolean;
+  water3Glasses: boolean;
+  meditation5Min: boolean;
+  mobility5Min: boolean;
+  gratefulFor: string;
+  intentionForDay: string;
+}
+
+export interface PlanningContent {
+  oneThing: TaskItem;
+  topThree: [TaskItem, TaskItem, TaskItem];
+  otherTasks?: OtherTaskItem[];
+}
+
+export interface LifePillarsContent {
+  training: boolean;
+  deepRelaxation: boolean;
+  healthyNutrition: boolean;
+  realConnection: boolean;
+}
+
+export interface ReflectionContent {
+  wentWell: string;
+  whyWentWell: string;
+  repeatInFuture: string;
+  wentWrong: string;
+  whyWentWrong: string;
+  doDifferently: string;
+}
+
+export interface DayCloseContent {
+  noScreens2Hours: boolean;
+  noCarbs3Hours: boolean;
+  tomorrowPlanned: boolean;
+  goalsReviewed: boolean;
+  reflection: ReflectionContent;
+}
+
 export interface DayContent {
-  dayStart: {
-    slept8Hours: boolean;
-    water3Glasses: boolean;
-    meditation5Min: boolean;
-    mobility5Min: boolean;
-    gratefulFor: string;
-    intentionForDay: string;
-  };
-  planning: {
-    oneThing: TaskItem;
-    topThree: [TaskItem, TaskItem, TaskItem];
-    otherTasks?: TaskItem[];
-  };
-  lifePillars: {
-    training: boolean;
-    deepRelaxation: boolean;
-    healthyNutrition: boolean;
-    realConnection: boolean;
-  };
-  dayClose: {
-    noScreens2Hours: boolean;
-    noCarbs3Hours: boolean;
-    tomorrowPlanned: boolean;
-    goalsReviewed: boolean;
-    reflection: {
-      wentWell: string;
-      whyWentWell: string;
-      repeatInFuture: string;
-      wentWrong: string;
-      whyWentWrong: string;
-      doDifferently: string;
-    };
-  };
+  dayStart: DayStartContent;
+  planning: PlanningContent;
+  lifePillars: LifePillarsContent;
+  dayClose: DayCloseContent;
+}
+
+export interface WeekGoal {
+  id: string;
+  title: string;
+  description: string;
+  linkedMonthGoals: string[];
+  progress: number;
+}
+
+export interface MonthGoal {
+  id: string;
+  title: string;
+  description: string;
+  linkedQuarterGoals: string[];
+  progress: number;
+}
+
+export interface QuarterGoal {
+  id: string;
+  title: string;
+  smartDefinition: string;
+  whatIsDifferent: string;
+  consequencesIfNot: string;
+  rewardIfAchieved: string;
+  progress: number;
 }
 
 export interface WeekStartContent {
-  focusTheme: string;
-  keyOutcomes: string[];
-  obstacles: string[];
-  supportNeeded: string[];
-  weeklyHabits: string[];
+  weeklyGoals: WeekGoal[];
 }
 
 export interface MonthStartContent {
-  focusTheme: string;
-  keyOutcomes: string[];
-  growthAreas: string[];
-  risks: string[];
-  monthlyHabits: string[];
+  monthlyGoals: MonthGoal[];
 }
 
 export interface QuarterStartContent {
-  vision: string;
-  keyOutcomes: string[];
-  strategicProjects: string[];
-  risks: string[];
-  successMetrics: string[];
+  lifeWheel: LifeWheelScores;
+  quarterGoals: QuarterGoal[];
+}
+
+export interface LifeWheelScores {
+  work: number;
+  fun: number;
+  social: number;
+  giving: number;
+  money: number;
+  growth: number;
+  health: number;
+  love: number;
 }

@@ -36,6 +36,120 @@ async function run() {
   const userB = await createTestUser(testUsers[1].email, testUsers[1].password);
 
   const now = new Date().toISOString();
+  const quarterGoals = [
+    {
+      id: "q1-goal-1",
+      title: "Ship MVP backend",
+      smartDefinition: "Deliver Phase 1-3 backend endpoints with tests",
+      whatIsDifferent: "Daily progress with clear milestones",
+      consequencesIfNot: "Delayed beta launch",
+      rewardIfAchieved: "Open beta to early users",
+      progress: 15
+    },
+    {
+      id: "q1-goal-2",
+      title: "Stabilize reliability",
+      smartDefinition: "Keep API tests green for 4 consecutive weeks",
+      whatIsDifferent: "Proactive refactors and monitoring",
+      consequencesIfNot: "Production incidents",
+      rewardIfAchieved: "Confidence to scale",
+      progress: 5
+    },
+    {
+      id: "q1-goal-3",
+      title: "Launch accountability",
+      smartDefinition: "Deliver pairing + summaries + check-ins",
+      whatIsDifferent: "Ship MVP feature set early",
+      consequencesIfNot: "Lower retention",
+      rewardIfAchieved: "Stronger user outcomes",
+      progress: 0
+    }
+  ];
+
+  const monthGoals = [
+    {
+      id: "m1-goal-1",
+      title: "Complete Phase 1",
+      description: "Schema, tests, server foundation",
+      linkedQuarterGoals: ["q1-goal-1"],
+      progress: 40
+    }
+  ];
+
+  const weekGoals = [
+    {
+      id: "w1-goal-1",
+      title: "Finish database verification",
+      description: "Run migrations and RLS tests",
+      linkedMonthGoals: ["m1-goal-1"],
+      progress: 60
+    }
+  ];
+
+  const dayContent = {
+    dayStart: {
+      slept8Hours: true,
+      water3Glasses: true,
+      meditation5Min: false,
+      mobility5Min: true,
+      gratefulFor: "Good health",
+      intentionForDay: "Focus on Phase 1"
+    },
+    planning: {
+      oneThing: {
+        title: "Ship core schema",
+        description: "Finalize migrations and tests",
+        pomodorosPlanned: 2,
+        pomodorosDone: 1
+      },
+      topThree: [
+        {
+          title: "Fix seed data",
+          description: "Match Start Strong structure",
+          pomodorosPlanned: 1,
+          pomodorosDone: 1
+        },
+        {
+          title: "Clean debug logs",
+          description: "Remove agent log calls",
+          pomodorosPlanned: 1,
+          pomodorosDone: 0
+        },
+        {
+          title: "Verify tests",
+          description: "Run Phase 1 suite",
+          pomodorosPlanned: 1,
+          pomodorosDone: 0
+        }
+      ],
+      otherTasks: [
+        {
+          title: "Update docs",
+          description: "Sync blueprint checklist"
+        }
+      ]
+    },
+    lifePillars: {
+      training: false,
+      deepRelaxation: true,
+      healthyNutrition: true,
+      realConnection: false
+    },
+    dayClose: {
+      noScreens2Hours: false,
+      noCarbs3Hours: true,
+      tomorrowPlanned: true,
+      goalsReviewed: true,
+      reflection: {
+        wentWell: "Good focus during deep work",
+        whyWentWell: "Planned the day clearly",
+        repeatInFuture: "Keep pomodoro discipline",
+        wentWrong: "Context switching",
+        whyWentWrong: "Too many interruptions",
+        doDifferently: "Block focus time"
+      }
+    }
+  };
 
   await admin.from("journal_documents").upsert([
     {
@@ -44,7 +158,19 @@ async function run() {
       doc_key: "2026-Q1",
       schema_version: 1,
       status: "active",
-      content: { vision: "Ship MVP", keyOutcomes: ["Launch beta"] },
+      content: {
+        lifeWheel: {
+          work: 7,
+          fun: 5,
+          social: 6,
+          giving: 4,
+          money: 6,
+          growth: 8,
+          health: 7,
+          love: 6
+        },
+        quarterGoals
+      },
       client_updated_at: now,
       device_id: "seed"
     },
@@ -54,7 +180,7 @@ async function run() {
       doc_key: "2026-01",
       schema_version: 1,
       status: "active",
-      content: { focusTheme: "Consistency" },
+      content: { monthlyGoals: monthGoals },
       client_updated_at: now,
       device_id: "seed"
     },
@@ -64,7 +190,7 @@ async function run() {
       doc_key: "2026-W04",
       schema_version: 1,
       status: "active",
-      content: { focusTheme: "Momentum" },
+      content: { weeklyGoals: weekGoals },
       client_updated_at: now,
       device_id: "seed"
     }
@@ -77,7 +203,7 @@ async function run() {
       doc_key: "2026-01-23",
       schema_version: 1,
       status: "closed",
-      content: { dayStart: {}, planning: {}, lifePillars: {}, dayClose: {} },
+      content: dayContent,
       client_updated_at: now,
       device_id: "seed"
     },
@@ -87,7 +213,7 @@ async function run() {
       doc_key: "2026-01-24",
       schema_version: 1,
       status: "open",
-      content: { dayStart: {}, planning: {}, lifePillars: {}, dayClose: {} },
+      content: dayContent,
       client_updated_at: now,
       device_id: "seed"
     },
@@ -97,7 +223,7 @@ async function run() {
       doc_key: "2026-01-22",
       schema_version: 1,
       status: "auto_closed",
-      content: { dayStart: {}, planning: {}, lifePillars: {}, dayClose: {} },
+      content: dayContent,
       client_updated_at: now,
       device_id: "seed"
     }

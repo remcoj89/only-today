@@ -49,7 +49,8 @@ export class AppError extends Error {
     return new AppError(
       ErrorCode.ClockSkewRejected,
       `Client time ${clientTime} differs from server time ${serverTime}`,
-      409
+      409,
+      { clientTime, serverTime }
     );
   }
 
