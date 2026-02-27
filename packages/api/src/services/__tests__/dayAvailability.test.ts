@@ -52,6 +52,14 @@ describe("dayAvailability", () => {
     expect(isDayAvailable("2026-02-02", "Europe/Amsterdam")).toBe(true);
   });
 
+  it("excludes days before account_start_date", () => {
+    vi.setSystemTime(new Date("2026-02-03T12:00:00Z"));
+    expect(isDayAvailable("2026-02-01", "UTC", "2026-02-02")).toBe(false);
+    expect(isDayAvailable("2026-02-02", "UTC", "2026-02-02")).toBe(true);
+    expect(isDayEditable("2026-02-01", "UTC", "2026-02-02")).toBe(false);
+    expect(isDayEditable("2026-02-02", "UTC", "2026-02-02")).toBe(true);
+  });
+
   it("detects auto-close after 48h", () => {
     vi.setSystemTime(new Date("2026-02-04T12:00:00Z"));
     const document = {

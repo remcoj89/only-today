@@ -48,10 +48,10 @@ const validDayContent = {
     ]
   },
   lifePillars: {
-    training: false,
-    deepRelaxation: true,
-    healthyNutrition: true,
-    realConnection: false
+    training: { task: "", completed: false },
+    deepRelaxation: { task: "", completed: true },
+    healthyNutrition: { task: "", completed: true },
+    realConnection: { task: "", completed: false }
   },
   dayClose: {
     noScreens2Hours: false,
@@ -116,15 +116,15 @@ describe("documentValidation", () => {
     expect(() => validateDocument(DocType.Day, validDayContent)).not.toThrow();
   });
 
-  it("rejects missing oneThing title", () => {
-    const invalid = {
+  it("accepts empty oneThing title for partial saves", () => {
+    const partial = {
       ...validDayContent,
       planning: {
         ...validDayContent.planning,
         oneThing: { ...validDayContent.planning.oneThing, title: "" }
       }
     };
-    expect(() => validateDocument(DocType.Day, invalid)).toThrow();
+    expect(() => validateDocument(DocType.Day, partial)).not.toThrow();
   });
 
   it("rejects topThree with 2 items", () => {
@@ -180,8 +180,8 @@ describe("documentValidation", () => {
     expect(() => validateDocument(DocType.Quarter, invalid)).toThrow();
   });
 
-  it("rejects manual close without reflection", () => {
-    const invalid = {
+  it("accepts empty reflection fields for open day partial saves", () => {
+    const partial = {
       ...validDayContent,
       dayClose: {
         ...validDayContent.dayClose,
@@ -191,6 +191,6 @@ describe("documentValidation", () => {
         }
       }
     };
-    expect(() => validateDocument(DocType.Day, invalid)).toThrow();
+    expect(() => validateDocument(DocType.Day, partial)).not.toThrow();
   });
 });

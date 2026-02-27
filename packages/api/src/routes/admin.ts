@@ -27,21 +27,6 @@ adminRoutes.post(
   validateRequest({ body: createUserSchema }),
   async (req, res, next) => {
     try {
-      // #region agent log
-      fetch("http://127.0.0.1:7242/ingest/8f2b6680-c47c-4e5b-b9d7-488dc9e2d3be", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          sessionId: "debug-session",
-          runId: "pre-fix",
-          hypothesisId: "H5",
-          location: "routes/admin.ts:post:/users",
-          message: "admin.createUser.request",
-          data: { hasUserId: !!req.userId, hasEmail: !!req.body?.email },
-          timestamp: Date.now()
-        })
-      }).catch(() => {});
-      // #endregion
       if (!req.userId) {
         return next(AppError.unauthorized("Missing admin context"));
       }
@@ -67,21 +52,6 @@ adminRoutes.post(
   validateRequest({ params: userIdParamsSchema }),
   async (req, res, next) => {
     try {
-      // #region agent log
-      fetch("http://127.0.0.1:7242/ingest/8f2b6680-c47c-4e5b-b9d7-488dc9e2d3be", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          sessionId: "debug-session",
-          runId: "pre-fix",
-          hypothesisId: "H5",
-          location: "routes/admin.ts:post:/users/:id/block",
-          message: "admin.blockUser.request",
-          data: { hasUserId: !!req.userId, hasTargetId: !!req.params?.id },
-          timestamp: Date.now()
-        })
-      }).catch(() => {});
-      // #endregion
       if (!req.userId) {
         return next(AppError.unauthorized("Missing admin context"));
       }
@@ -102,21 +72,6 @@ adminRoutes.post(
   validateRequest({ params: userIdParamsSchema }),
   async (req, res, next) => {
     try {
-      // #region agent log
-      fetch("http://127.0.0.1:7242/ingest/8f2b6680-c47c-4e5b-b9d7-488dc9e2d3be", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          sessionId: "debug-session",
-          runId: "pre-fix",
-          hypothesisId: "H5",
-          location: "routes/admin.ts:post:/users/:id/unblock",
-          message: "admin.unblockUser.request",
-          data: { hasUserId: !!req.userId, hasTargetId: !!req.params?.id },
-          timestamp: Date.now()
-        })
-      }).catch(() => {});
-      // #endregion
       if (!req.userId) {
         return next(AppError.unauthorized("Missing admin context"));
       }
@@ -137,21 +92,6 @@ adminRoutes.delete(
   validateRequest({ params: userIdParamsSchema }),
   async (req, res, next) => {
     try {
-      // #region agent log
-      fetch("http://127.0.0.1:7242/ingest/8f2b6680-c47c-4e5b-b9d7-488dc9e2d3be", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          sessionId: "debug-session",
-          runId: "pre-fix",
-          hypothesisId: "H5",
-          location: "routes/admin.ts:delete:/users/:id",
-          message: "admin.deleteUser.request",
-          data: { hasUserId: !!req.userId, hasTargetId: !!req.params?.id },
-          timestamp: Date.now()
-        })
-      }).catch(() => {});
-      // #endregion
       if (!req.userId) {
         return next(AppError.unauthorized("Missing admin context"));
       }

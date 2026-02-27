@@ -1,4 +1,5 @@
 import type { NextFunction, Request, Response } from "express";
+import { config } from "../config";
 import { getSupabaseAdminClient, getSupabaseClient } from "../db/client";
 import { AppError } from "../errors";
 import { getUserFromSession, trackDeviceSession, validateSession } from "../services/sessionService";
@@ -18,6 +19,14 @@ function getClientIdentifier(req: Request): string {
     return forwarded.split(",")[0].trim();
   }
   return req.ip ?? "unknown";
+}
+
+function isLocalhost(identifier: string): boolean {
+  return identifier === "127.0.0.1" || identifier === "::1" || identifier === "::ffff:127.0.0.1";
+}
+
+function isUnreliableIdentifier(identifier: string): boolean {
+  return identifier === "unknown" || identifier === "" || identifier === "undefined";
 }
 
 function isExpiredToken(token: string): boolean {
@@ -74,40 +83,9 @@ function getDeviceId(req: Request): string | null {
 
 export async function authMiddleware(req: Request, _res: Response, next: NextFunction) {
   const identifier = getClientIdentifier(req);
-  // #region agent log
-  fetch("http://127.0.0.1:7242/ingest/8f2b6680-c47c-4e5b-b9d7-488dc9e2d3be", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      sessionId: "debug-session",
-      runId: "pre-fix",
-      hypothesisId: "H6",
-      location: "middleware/auth.ts:authMiddleware",
-      message: "authMiddleware.start",
-      data: {
-        hasAuthHeader: !!req.header("authorization"),
-        hasDeviceId: !!getDeviceId(req)
-      },
-      timestamp: Date.now()
-    })
-  }).catch(() => {});
-  // #endregion
-  // #region agent log
-  fetch("http://127.0.0.1:7242/ingest/8f2b6680-c47c-4e5b-b9d7-488dc9e2d3be", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      sessionId: "debug-session",
-      runId: "pre-fix",
-      hypothesisId: "H21",
-      location: "middleware/auth.ts:authMiddleware",
-      message: "authMiddleware.request",
-      data: { method: req.method, path: req.path },
-      timestamp: Date.now()
-    })
-  }).catch(() => {});
-  // #endregion
-  if (isRateLimited(identifier)) {
+  const skipRateLimit =
+    isUnreliableIdentifier(identifier) || (config.nodeEnv === "development" && isLocalhost(identifier));
+  if (!skipRateLimit && isRateLimited(identifier)) {
     return next(AppError.rateLimited());
   }
 
@@ -135,25 +113,6 @@ export async function authMiddleware(req: Request, _res: Response, next: NextFun
 
   const client = getSupabaseClient();
   const { data, error } = await client.auth.getUser(token);
-  // #region agent log
-  fetch("http://127.0.0.1:7242/ingest/8f2b6680-c47c-4e5b-b9d7-488dc9e2d3be", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      sessionId: "debug-session",
-      runId: "pre-fix",
-      hypothesisId: "H7",
-      location: "middleware/auth.ts:authMiddleware",
-      message: "authMiddleware.getUser.result",
-      data: {
-        hasUser: !!data?.user,
-        hasError: !!error,
-        errorStatus: error?.status ?? null
-      },
-      timestamp: Date.now()
-    })
-  }).catch(() => {});
-  // #endregion
 
   if (error || !data.user) {
     if (error?.status !== 403) {
@@ -171,25 +130,6 @@ export async function authMiddleware(req: Request, _res: Response, next: NextFun
     const { data: freshUser, error: adminError } = await adminClient.auth.admin.getUserById(
       fallbackUser.userId
     );
-    // #region agent log
-    fetch("http://127.0.0.1:7242/ingest/8f2b6680-c47c-4e5b-b9d7-488dc9e2d3be", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        sessionId: "debug-session",
-        runId: "pre-fix",
-        hypothesisId: "H18",
-        location: "middleware/auth.ts:authMiddleware",
-        message: "authMiddleware.adminUser.fallback",
-        data: {
-          hasUser: !!freshUser?.user,
-          hasError: !!adminError,
-          isBlocked: !!freshUser?.user?.app_metadata?.blocked
-        },
-        timestamp: Date.now()
-      })
-    }).catch(() => {});
-    // #endregion
 
     if (adminError || !freshUser?.user) {
       recordFailure(identifier);
@@ -213,48 +153,10 @@ export async function authMiddleware(req: Request, _res: Response, next: NextFun
     return next();
   }
 
-  // #region agent log
-  fetch("http://127.0.0.1:7242/ingest/8f2b6680-c47c-4e5b-b9d7-488dc9e2d3be", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      sessionId: "debug-session",
-      runId: "pre-fix",
-      hypothesisId: "H17",
-      location: "middleware/auth.ts:authMiddleware",
-      message: "authMiddleware.userMetadata",
-      data: {
-        hasUser: !!data.user,
-        isBlocked: !!data.user.app_metadata?.blocked
-      },
-      timestamp: Date.now()
-    })
-  }).catch(() => {});
-  // #endregion
-
   const adminClient = getSupabaseAdminClient();
   const { data: freshUser, error: adminError } = await adminClient.auth.admin.getUserById(
     data.user.id
   );
-  // #region agent log
-  fetch("http://127.0.0.1:7242/ingest/8f2b6680-c47c-4e5b-b9d7-488dc9e2d3be", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      sessionId: "debug-session",
-      runId: "pre-fix",
-      hypothesisId: "H18",
-      location: "middleware/auth.ts:authMiddleware",
-      message: "authMiddleware.adminUser.result",
-      data: {
-        hasUser: !!freshUser?.user,
-        hasError: !!adminError,
-        isBlocked: !!freshUser?.user?.app_metadata?.blocked
-      },
-      timestamp: Date.now()
-    })
-  }).catch(() => {});
-  // #endregion
 
   if (adminError || !freshUser?.user) {
     recordFailure(identifier);
@@ -262,40 +164,10 @@ export async function authMiddleware(req: Request, _res: Response, next: NextFun
   }
 
   if (freshUser.user.app_metadata?.blocked) {
-    // #region agent log
-    fetch("http://127.0.0.1:7242/ingest/8f2b6680-c47c-4e5b-b9d7-488dc9e2d3be", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        sessionId: "debug-session",
-        runId: "pre-fix",
-        hypothesisId: "H18",
-        location: "middleware/auth.ts:authMiddleware",
-        message: "authMiddleware.blockedAdmin",
-        data: { method: req.method, path: req.path },
-        timestamp: Date.now()
-      })
-    }).catch(() => {});
-    // #endregion
     recordFailure(identifier);
     return next(AppError.unauthorized("User is blocked"));
   }
 
-  // #region agent log
-  fetch("http://127.0.0.1:7242/ingest/8f2b6680-c47c-4e5b-b9d7-488dc9e2d3be", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      sessionId: "debug-session",
-      runId: "pre-fix",
-      hypothesisId: "H17",
-      location: "middleware/auth.ts:authMiddleware",
-      message: "authMiddleware.allowed",
-      data: {},
-      timestamp: Date.now()
-    })
-  }).catch(() => {});
-  // #endregion
   clearFailures(identifier);
   req.userId = freshUser.user.id;
   req.userEmail = freshUser.user.email ?? undefined;

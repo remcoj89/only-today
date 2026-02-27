@@ -130,10 +130,10 @@ async function run() {
       ]
     },
     lifePillars: {
-      training: false,
-      deepRelaxation: true,
-      healthyNutrition: true,
-      realConnection: false
+      training: { task: "", completed: false },
+      deepRelaxation: { task: "", completed: true },
+      healthyNutrition: { task: "", completed: true },
+      realConnection: { task: "", completed: false }
     },
     dayClose: {
       noScreens2Hours: false,

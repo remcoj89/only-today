@@ -53,11 +53,16 @@ export interface PlanningContent {
   otherTasks?: OtherTaskItem[];
 }
 
+export interface LifePillarItem {
+  task: string;
+  completed: boolean;
+}
+
 export interface LifePillarsContent {
-  training: boolean;
-  deepRelaxation: boolean;
-  healthyNutrition: boolean;
-  realConnection: boolean;
+  training: LifePillarItem;
+  deepRelaxation: LifePillarItem;
+  healthyNutrition: LifePillarItem;
+  realConnection: LifePillarItem;
 }
 
 export interface ReflectionContent {
@@ -90,6 +95,8 @@ export interface WeekGoal {
   description: string;
   linkedMonthGoals: string[];
   progress: number;
+  /** Day indices 0=Mon, 1=Tue, ..., 6=Sun. Goals assigned to these days appear in the week agenda. */
+  assignedDays?: number[];
 }
 
 export interface MonthGoal {

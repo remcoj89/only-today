@@ -1,5 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
-import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
+import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 import { DocType } from "@hemera/shared";
 import { AppError } from "../../errors";
 import { createUserSettings } from "../userService";
@@ -64,10 +64,10 @@ const validDayContent = {
     ]
   },
   lifePillars: {
-    training: false,
-    deepRelaxation: true,
-    healthyNutrition: true,
-    realConnection: false
+    training: { task: "", completed: false },
+    deepRelaxation: { task: "", completed: true },
+    healthyNutrition: { task: "", completed: true },
+    realConnection: { task: "", completed: false }
   },
   dayClose: {
     noScreens2Hours: false,
@@ -124,8 +124,12 @@ describe("documentService", () => {
     await cleanupUsers();
   });
 
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
   it("creates a new document if missing", async () => {
-    vi.useFakeTimers();
+    vi.useFakeTimers({ toFake: ["Date"] });
     vi.setSystemTime(new Date("2026-02-02T10:00:00Z"));
 
     const doc = await getDocument(user.userId, user.accessToken, DocType.Day, "2026-02-03");
@@ -135,7 +139,7 @@ describe("documentService", () => {
   });
 
   it("returns existing document", async () => {
-    vi.useFakeTimers();
+    vi.useFakeTimers({ toFake: ["Date"] });
     vi.setSystemTime(new Date("2026-02-02T10:00:00Z"));
 
     const first = await getDocument(user.userId, user.accessToken, DocType.Day, "2026-02-03");
@@ -146,7 +150,7 @@ describe("documentService", () => {
   });
 
   it("throws for unavailable day", async () => {
-    vi.useFakeTimers();
+    vi.useFakeTimers({ toFake: ["Date"] });
     vi.setSystemTime(new Date("2026-02-01T00:00:00Z"));
 
     await expect(
@@ -157,7 +161,7 @@ describe("documentService", () => {
   });
 
   it("saves valid documents", async () => {
-    vi.useFakeTimers();
+    vi.useFakeTimers({ toFake: ["Date"] });
     vi.setSystemTime(new Date("2026-02-02T10:00:00Z"));
 
     const result = await saveDocument(
@@ -175,15 +179,15 @@ describe("documentService", () => {
     vi.useRealTimers();
   });
 
-  it("rejects invalid content", async () => {
-    vi.useFakeTimers();
+  it("rejects invalid content (wrong structure)", async () => {
+    vi.useFakeTimers({ toFake: ["Date"] });
     vi.setSystemTime(new Date("2026-02-02T10:00:00Z"));
 
     const invalid = {
       ...validDayContent,
       planning: {
         ...validDayContent.planning,
-        oneThing: { ...validDayContent.planning.oneThing, title: "" }
+        topThree: validDayContent.planning.topThree.slice(0, 2)
       }
     };
 
@@ -202,7 +206,7 @@ describe("documentService", () => {
   });
 
   it("rejects locked day saves", async () => {
-    vi.useFakeTimers();
+    vi.useFakeTimers({ toFake: ["Date"] });
     vi.setSystemTime(new Date("2026-02-05T12:00:00Z"));
 
     await expect(
@@ -220,7 +224,7 @@ describe("documentService", () => {
   });
 
   it("requires reflection to close day", async () => {
-    vi.useFakeTimers();
+    vi.useFakeTimers({ toFake: ["Date"] });
     vi.setSystemTime(new Date("2026-02-02T12:00:00Z"));
 
     await expect(
@@ -238,7 +242,7 @@ describe("documentService", () => {
   });
 
   it("updates status summary on close", async () => {
-    vi.useFakeTimers();
+    vi.useFakeTimers({ toFake: ["Date"] });
     vi.setSystemTime(new Date("2026-02-02T12:00:00Z"));
 
     await saveDocument(

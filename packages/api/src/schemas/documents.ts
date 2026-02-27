@@ -2,6 +2,7 @@ import { z } from "zod";
 import { MAX_POMODOROS_PER_TASK } from "@hemera/shared";
 
 const nonEmptyString = z.string().min(1);
+const stringOrEmpty = z.string();
 const boundedPomodoros = z.number().int().min(0).max(MAX_POMODOROS_PER_TASK);
 
 export const DayStartSchema = z.object({
@@ -9,26 +10,26 @@ export const DayStartSchema = z.object({
   water3Glasses: z.boolean(),
   meditation5Min: z.boolean(),
   mobility5Min: z.boolean(),
-  gratefulFor: nonEmptyString,
-  intentionForDay: nonEmptyString
+  gratefulFor: stringOrEmpty,
+  intentionForDay: stringOrEmpty
 });
 
 export const OneThingSchema = z.object({
-  title: nonEmptyString,
-  description: nonEmptyString,
+  title: stringOrEmpty,
+  description: stringOrEmpty,
   pomodorosPlanned: boundedPomodoros,
   pomodorosDone: boundedPomodoros
 });
 
 export const TopThreeItemSchema = z.object({
-  title: nonEmptyString,
-  description: nonEmptyString,
+  title: stringOrEmpty,
+  description: stringOrEmpty,
   pomodorosPlanned: boundedPomodoros,
   pomodorosDone: boundedPomodoros
 });
 
 export const OtherTaskSchema = z.object({
-  title: nonEmptyString,
+  title: stringOrEmpty,
   description: z.string().optional(),
   pomodorosPlanned: boundedPomodoros.optional(),
   pomodorosDone: boundedPomodoros.optional()
@@ -40,20 +41,32 @@ export const PlanningSchema = z.object({
   otherTasks: z.array(OtherTaskSchema).optional()
 });
 
+const LifePillarItemSchema = z.object({
+  task: z.string(),
+  completed: z.boolean()
+});
+
 export const LifePillarsSchema = z.object({
-  training: z.boolean(),
-  deepRelaxation: z.boolean(),
-  healthyNutrition: z.boolean(),
-  realConnection: z.boolean()
+  training: LifePillarItemSchema,
+  deepRelaxation: LifePillarItemSchema,
+  healthyNutrition: LifePillarItemSchema,
+  realConnection: LifePillarItemSchema
+});
+
+export const LifePillarsUpdateSchema = z.object({
+  training: LifePillarItemSchema.partial().optional(),
+  deepRelaxation: LifePillarItemSchema.partial().optional(),
+  healthyNutrition: LifePillarItemSchema.partial().optional(),
+  realConnection: LifePillarItemSchema.partial().optional()
 });
 
 export const ReflectionSchema = z.object({
-  wentWell: nonEmptyString,
-  whyWentWell: nonEmptyString,
-  repeatInFuture: nonEmptyString,
-  wentWrong: nonEmptyString,
-  whyWentWrong: nonEmptyString,
-  doDifferently: nonEmptyString
+  wentWell: stringOrEmpty,
+  whyWentWell: stringOrEmpty,
+  repeatInFuture: stringOrEmpty,
+  wentWrong: stringOrEmpty,
+  whyWentWrong: stringOrEmpty,
+  doDifferently: stringOrEmpty
 });
 
 export const DayCloseSchema = z.object({
@@ -71,12 +84,15 @@ export const DayContentSchema = z.object({
   dayClose: DayCloseSchema
 });
 
+const assignedDaysSchema = z.array(z.number().int().min(0).max(6));
+
 const weeklyGoalSchema = z.object({
   id: nonEmptyString,
   title: nonEmptyString,
-  description: nonEmptyString,
-  linkedMonthGoals: z.array(nonEmptyString).min(1),
-  progress: z.number().int().min(0).max(100)
+  description: stringOrEmpty,
+  linkedMonthGoals: z.array(nonEmptyString),
+  progress: z.number().int().min(0).max(100),
+  assignedDays: assignedDaysSchema.optional().default([])
 });
 
 export const WeekContentSchema = z.object({
@@ -86,8 +102,8 @@ export const WeekContentSchema = z.object({
 const monthlyGoalSchema = z.object({
   id: nonEmptyString,
   title: nonEmptyString,
-  description: nonEmptyString,
-  linkedQuarterGoals: z.array(nonEmptyString).min(1),
+  description: stringOrEmpty,
+  linkedQuarterGoals: z.array(nonEmptyString),
   progress: z.number().int().min(0).max(100)
 });
 
@@ -126,10 +142,13 @@ export const documentParamsSchema = z.object({
   docKey: nonEmptyString
 });
 
+const documentStatusSchema = z.enum(["open", "closed", "auto_closed"]);
+
 export const documentUpdateSchema = z.object({
   content: z.record(z.unknown()),
   clientUpdatedAt: z.string().datetime(),
-  deviceId: z.string().min(1).optional()
+  deviceId: z.string().min(1).optional(),
+  status: documentStatusSchema.optional()
 });
 
 export const closeDaySchema = z.object({

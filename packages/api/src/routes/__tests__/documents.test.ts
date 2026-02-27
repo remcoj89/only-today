@@ -93,10 +93,10 @@ const validDayContent = {
     ]
   },
   lifePillars: {
-    training: false,
-    deepRelaxation: true,
-    healthyNutrition: true,
-    realConnection: false
+    training: { task: "", completed: false },
+    deepRelaxation: { task: "", completed: true },
+    healthyNutrition: { task: "", completed: true },
+    realConnection: { task: "", completed: false }
   },
   dayClose: {
     noScreens2Hours: false,
@@ -167,12 +167,50 @@ describe("documents routes", () => {
     expect(response.body.data.document.docKey).toBe(todayKey);
   });
 
-  it("rejects invalid content", async () => {
+  it("updates daily_status_summary when PUT includes status closed", async () => {
+    const closedContent = {
+      ...validDayContent,
+      dayClose: {
+        ...validDayContent.dayClose,
+        reflection: {
+          wentWell: "Progress",
+          whyWentWell: "Focus",
+          repeatInFuture: "Plan earlier",
+          wentWrong: "Distractions",
+          whyWentWrong: "Too many pings",
+          doDifferently: "Mute notifications"
+        }
+      }
+    };
+    const response = await request(app)
+      .put(`/documents/day/${todayKey}`)
+      .set("Authorization", `Bearer ${userA.accessToken}`)
+      .send({
+        content: closedContent,
+        clientUpdatedAt: new Date().toISOString(),
+        deviceId: "web",
+        status: "closed"
+      });
+
+    expect(response.status).toBe(200);
+    expect(response.body.data.document.status).toBe("closed");
+
+    const { data } = await adminClient
+      .from("daily_status_summary")
+      .select("*")
+      .eq("user_id", userA.userId)
+      .eq("date", todayKey)
+      .single();
+
+    expect(data?.day_closed).toBe(true);
+  });
+
+  it("rejects invalid content (wrong structure)", async () => {
     const invalid = {
       ...validDayContent,
       planning: {
         ...validDayContent.planning,
-        oneThing: { ...validDayContent.planning.oneThing, title: "" }
+        topThree: validDayContent.planning.topThree.slice(0, 2)
       }
     };
 
@@ -202,12 +240,13 @@ describe("documents routes", () => {
   });
 
   it("rejects clock skewed updates", async () => {
+    const skewedTimestamp = new Date(Date.now() + 11 * 60 * 1000).toISOString();
     const response = await request(app)
       .put(`/documents/day/${todayKey}`)
       .set("Authorization", `Bearer ${userA.accessToken}`)
       .send({
         content: validDayContent,
-        clientUpdatedAt: "2026-02-02T10:11:00.000Z"
+        clientUpdatedAt: skewedTimestamp
       });
 
     expect(response.status).toBe(409);

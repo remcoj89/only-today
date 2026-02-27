@@ -166,4 +166,20 @@ describe("auth routes", () => {
     const refreshResponse = await request(app).post("/auth/refresh").send({ refreshToken });
     expect(refreshResponse.status).toBe(401);
   });
+
+  it("accepts forgot-password for a valid email payload", async () => {
+    const email = `hemera.forgot+${Date.now()}@example.com`;
+    const response = await request(app).post("/auth/forgot-password").send({ email });
+
+    expect(response.status).toBe(200);
+    expect(response.body.success).toBe(true);
+    expect(response.body.data.message).toContain("reset link");
+  });
+
+  it("rejects forgot-password for invalid email", async () => {
+    const response = await request(app).post("/auth/forgot-password").send({ email: "invalid-email" });
+
+    expect(response.status).toBe(400);
+    expect(response.body.code).toBe("VALIDATION_ERROR");
+  });
 });

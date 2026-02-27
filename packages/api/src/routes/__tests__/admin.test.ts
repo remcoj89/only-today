@@ -68,21 +68,6 @@ describe("admin routes", () => {
   });
 
   it("allows admin to create, block/unblock, and delete users", async () => {
-    // #region agent log
-    fetch("http://127.0.0.1:7242/ingest/8f2b6680-c47c-4e5b-b9d7-488dc9e2d3be", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        sessionId: "debug-session",
-        runId: "pre-fix",
-        hypothesisId: "H12",
-        location: "admin.test.ts:allows admin to create, block/unblock, and delete users",
-        message: "adminFlow.start",
-        data: {},
-        timestamp: Date.now()
-      })
-    }).catch(() => {});
-    // #endregion
     const adminEmail = `hemera.admin+${Date.now()}@example.com`;
     const adminPassword = "TestPassword!123";
     const adminUser = await createUser(adminEmail, adminPassword);
@@ -114,21 +99,6 @@ describe("admin routes", () => {
 
     expect(logEntry.error).toBeNull();
     expect(logEntry.data?.action_type).toBe("create");
-    // #region agent log
-    fetch("http://127.0.0.1:7242/ingest/8f2b6680-c47c-4e5b-b9d7-488dc9e2d3be", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        sessionId: "debug-session",
-        runId: "pre-fix",
-        hypothesisId: "H12",
-        location: "admin.test.ts:allows admin to create, block/unblock, and delete users",
-        message: "adminFlow.afterCreate",
-        data: { createdUserId },
-        timestamp: Date.now()
-      })
-    }).catch(() => {});
-    // #endregion
 
     const userLogin = await request(app)
       .post("/auth/login")
@@ -151,98 +121,22 @@ describe("admin routes", () => {
       .post(`/admin/users/${createdUserId}/unblock`)
       .set("Authorization", `Bearer ${adminToken}`);
     expect(unblockResponse.status).toBe(200);
-    // #region agent log
-    fetch("http://127.0.0.1:7242/ingest/8f2b6680-c47c-4e5b-b9d7-488dc9e2d3be", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        sessionId: "debug-session",
-        runId: "pre-fix",
-        hypothesisId: "H12",
-        location: "admin.test.ts:allows admin to create, block/unblock, and delete users",
-        message: "adminFlow.afterUnblock",
-        data: {},
-        timestamp: Date.now()
-      })
-    }).catch(() => {});
-    // #endregion
 
     const unblockedDevices = await request(app)
       .get("/devices")
       .set("Authorization", `Bearer ${userToken}`);
     expect(unblockedDevices.status).toBe(200);
-    // #region agent log
-    fetch("http://127.0.0.1:7242/ingest/8f2b6680-c47c-4e5b-b9d7-488dc9e2d3be", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        sessionId: "debug-session",
-        runId: "pre-fix",
-        hypothesisId: "H12",
-        location: "admin.test.ts:allows admin to create, block/unblock, and delete users",
-        message: "adminFlow.afterUnblockedDevices",
-        data: { status: unblockedDevices.status },
-        timestamp: Date.now()
-      })
-    }).catch(() => {});
-    // #endregion
-
-    // #region agent log
-    fetch("http://127.0.0.1:7242/ingest/8f2b6680-c47c-4e5b-b9d7-488dc9e2d3be", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        sessionId: "debug-session",
-        runId: "pre-fix",
-        hypothesisId: "H12",
-        location: "admin.test.ts:allows admin to create, block/unblock, and delete users",
-        message: "adminFlow.beforeDelete",
-        data: { createdUserId },
-        timestamp: Date.now()
-      })
-    }).catch(() => {});
-    // #endregion
 
     const deleteResponse = await request(app)
       .delete(`/admin/users/${createdUserId}`)
       .set("Authorization", `Bearer ${adminToken}`);
     expect(deleteResponse.status).toBe(200);
-    // #region agent log
-    fetch("http://127.0.0.1:7242/ingest/8f2b6680-c47c-4e5b-b9d7-488dc9e2d3be", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        sessionId: "debug-session",
-        runId: "pre-fix",
-        hypothesisId: "H12",
-        location: "admin.test.ts:allows admin to create, block/unblock, and delete users",
-        message: "adminFlow.afterDelete",
-        data: {},
-        timestamp: Date.now()
-      })
-    }).catch(() => {});
-    // #endregion
 
     const { data: settings } = await adminClient
       .from("user_settings")
       .select("user_id")
       .eq("user_id", createdUserId)
       .maybeSingle();
-    // #region agent log
-    fetch("http://127.0.0.1:7242/ingest/8f2b6680-c47c-4e5b-b9d7-488dc9e2d3be", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        sessionId: "debug-session",
-        runId: "pre-fix",
-        hypothesisId: "H16",
-        location: "admin.test.ts:allows admin to create, block/unblock, and delete users",
-        message: "adminFlow.afterSettingsCheck",
-        data: { hasSettings: !!settings },
-        timestamp: Date.now()
-      })
-    }).catch(() => {});
-    // #endregion
     expect(settings).toBeNull();
   }, 30000);
 

@@ -11,6 +11,9 @@ function isValidTime(value: string): boolean {
 }
 
 function isValidTimeZone(timeZone: string): boolean {
+  if (timeZone === "UTC" || timeZone === "Etc/UTC") {
+    return true;
+  }
   const hasSupportedValues = typeof Intl.supportedValuesOf === "function";
   if (hasSupportedValues) {
     return Intl.supportedValuesOf("timeZone").includes(timeZone);
@@ -34,5 +37,26 @@ export const userSettingsUpdateSchema = z
     push_enabled: z.boolean().optional(),
     email_for_escalations_enabled: z.boolean().optional(),
     timezone: z.string().refine(isValidTimeZone, { message: "Invalid timezone" }).optional()
+  })
+  .strict();
+
+export const userProfileUpdateSchema = z
+  .object({
+    name: z.string().min(1, "Name is required").max(200, "Name too long")
+  })
+  .strict();
+
+export const passwordUpdateSchema = z
+  .object({
+    currentPassword: z.string().min(1, "Current password is required"),
+    newPassword: z.string().min(8, "Password must be at least 8 characters")
+  })
+  .strict();
+
+export const accountDeleteSchema = z
+  .object({
+    confirmation: z.literal("DELETE", {
+      errorMap: () => ({ message: "Type DELETE to confirm account deletion" })
+    })
   })
   .strict();

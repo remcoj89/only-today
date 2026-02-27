@@ -1,6 +1,7 @@
 import { DocStatus, DocType, type DayContent, type DocumentBase } from "@hemera/shared";
 import { AppError } from "../errors";
 import { createDocumentRepository } from "../repositories/documentRepository";
+import { mergeLifePillars } from "../utils/lifePillars";
 import { validateDocument } from "./documentValidation";
 import { getUserSettings } from "./userService";
 import { isDayAvailable, isDayEditable, shouldAutoClose } from "./dayAvailability";
@@ -39,10 +40,10 @@ function buildEmptyDayContent(): DayContent {
       otherTasks: []
     },
     lifePillars: {
-      training: false,
-      deepRelaxation: false,
-      healthyNutrition: false,
-      realConnection: false
+      training: { task: "", completed: false },
+      deepRelaxation: { task: "", completed: false },
+      healthyNutrition: { task: "", completed: false },
+      realConnection: { task: "", completed: false }
     },
     dayClose: {
       noScreens2Hours: false,
@@ -103,7 +104,7 @@ function mergeDayContent(content: Record<string, unknown>): DayContent {
           : base.planning.topThree,
       otherTasks: incoming.planning?.otherTasks ?? base.planning.otherTasks
     },
-    lifePillars: { ...base.lifePillars, ...incoming.lifePillars },
+    lifePillars: mergeLifePillars(base.lifePillars, incoming.lifePillars),
     dayClose: {
       ...base.dayClose,
       ...incoming.dayClose,
@@ -123,9 +124,15 @@ function hasCompleteReflection(reflection: DayContent["dayClose"]["reflection"])
   );
 }
 
-async function getUserTimezone(userId: string, accessToken: string): Promise<string> {
+async function getDayAvailabilityContext(userId: string, accessToken: string): Promise<{
+  timezone: string;
+  accountStartDate: string | null;
+}> {
   const settings = await getUserSettings(userId, accessToken);
-  return settings.timezone ?? "UTC";
+  return {
+    timezone: settings.timezone ?? "UTC",
+    accountStartDate: settings.account_start_date ?? null
+  };
 }
 
 function getDefaultStatus(docType: DocType): DocumentBase["status"] {
@@ -140,8 +147,8 @@ export async function getDocument(
 ): Promise<DocumentBase> {
   const repo = createDocumentRepository(accessToken);
   if (docType === DocType.Day) {
-    const timezone = await getUserTimezone(userId, accessToken);
-    if (!isDayAvailable(docKey, timezone)) {
+    const { timezone, accountStartDate } = await getDayAvailabilityContext(userId, accessToken);
+    if (!isDayAvailable(docKey, timezone, accountStartDate)) {
       throw AppError.docNotYetAvailable(docKey);
     }
   }
@@ -170,12 +177,13 @@ export async function saveDocument(
   docKey: string,
   content: Record<string, unknown>,
   clientUpdatedAt: string,
-  deviceId?: string
+  deviceId?: string,
+  status?: "open" | "closed" | "auto_closed"
 ): Promise<SaveResult> {
   const repo = createDocumentRepository(accessToken);
   if (docType === DocType.Day) {
-    const timezone = await getUserTimezone(userId, accessToken);
-    if (!isDayEditable(docKey, timezone)) {
+    const { timezone, accountStartDate } = await getDayAvailabilityContext(userId, accessToken);
+    if (!isDayEditable(docKey, timezone, accountStartDate)) {
       throw AppError.docLocked(docKey);
     }
   }
@@ -187,15 +195,20 @@ export async function saveDocument(
 
   const existing = await repo.findByKey(userId, docType, docKey);
   if (!existing) {
+    const createStatus =
+      docType === DocType.Day && status ? (status as DocumentBase["status"]) : getDefaultStatus(docType);
     const created = await repo.create({
       userId,
       docType,
       docKey,
-      status: getDefaultStatus(docType),
+      status: createStatus,
       content,
       clientUpdatedAt,
       deviceId
     });
+    if (docType === DocType.Day && created.status === DocStatus.Closed) {
+      await updateSummary(userId, docKey, created);
+    }
     return { document: created };
   }
 
@@ -203,18 +216,26 @@ export async function saveDocument(
     ...existing,
     content,
     clientUpdatedAt,
-    deviceId
+    deviceId,
+    ...(status !== undefined && { status: status as DocumentBase["status"] })
   };
   const resolution = resolveConflict(existing, incoming);
   if (resolution.winner === "existing") {
     return { document: existing, conflictResolution: { winner: "existing" } };
   }
 
-  const updated = await repo.update(existing.id, {
+  const updatePayload: { content: Record<string, unknown>; clientUpdatedAt: string; deviceId?: string; status?: DocumentBase["status"] } = {
     content,
     clientUpdatedAt,
     deviceId
-  });
+  };
+  if (status !== undefined) {
+    updatePayload.status = status as DocumentBase["status"];
+  }
+  const updated = await repo.update(existing.id, updatePayload);
+  if (docType === DocType.Day && updated.status === DocStatus.Closed) {
+    await updateSummary(userId, docKey, updated);
+  }
   return { document: updated, conflictResolution: { winner: "incoming" } };
 }
 
@@ -225,9 +246,9 @@ export async function closeDay(
   reflection: DayContent["dayClose"]["reflection"]
 ): Promise<DocumentBase> {
   const repo = createDocumentRepository(accessToken);
-  const timezone = await getUserTimezone(userId, accessToken);
+  const { timezone, accountStartDate } = await getDayAvailabilityContext(userId, accessToken);
 
-  if (!isDayEditable(dateKey, timezone)) {
+  if (!isDayEditable(dateKey, timezone, accountStartDate)) {
     throw AppError.docLocked(dateKey);
   }
 
@@ -252,11 +273,14 @@ export async function closeDay(
 
 export async function autoClosePendingDays(userId: string, accessToken: string): Promise<number> {
   const repo = createDocumentRepository(accessToken);
-  const timezone = await getUserTimezone(userId, accessToken);
+  const { timezone, accountStartDate } = await getDayAvailabilityContext(userId, accessToken);
   const documents = await repo.findByUser(userId, { docType: DocType.Day });
 
   let closedCount = 0;
   for (const document of documents) {
+    if (accountStartDate != null && document.docKey < accountStartDate) {
+      continue;
+    }
     if (!shouldAutoClose(document, document.docKey, timezone)) {
       continue;
     }

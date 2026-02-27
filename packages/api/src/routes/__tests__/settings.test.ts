@@ -129,6 +129,115 @@ describe("settings routes", () => {
     expect(response.body.code).toBe("VALIDATION_ERROR");
   });
 
+  it("returns profile for authenticated user", async () => {
+    const email = `hemera.settings.profile+${Date.now()}@example.com`;
+    const password = "TestPassword!123";
+    await createTestUser(email, password);
+
+    const login = await request(app).post("/auth/login").send({ email, password });
+    const accessToken = login.body.data.session.access_token as string;
+
+    const response = await request(app)
+      .get("/settings/profile")
+      .set("Authorization", `Bearer ${accessToken}`);
+
+    expect(response.status).toBe(200);
+    expect(response.body.success).toBe(true);
+    expect(response.body.data.profile.email).toBe(email);
+  });
+
+  it("updates profile name in user metadata", async () => {
+    const email = `hemera.settings.profile.update+${Date.now()}@example.com`;
+    const password = "TestPassword!123";
+    await createTestUser(email, password);
+
+    const login = await request(app).post("/auth/login").send({ email, password });
+    const accessToken = login.body.data.session.access_token as string;
+
+    const response = await request(app)
+      .patch("/settings/profile")
+      .set("Authorization", `Bearer ${accessToken}`)
+      .send({ name: "Remco Test" });
+
+    expect(response.status).toBe(200);
+    expect(response.body.success).toBe(true);
+    expect(response.body.data.profile.name).toBe("Remco Test");
+  });
+
+  it("rejects password update when body is invalid", async () => {
+    const email = `hemera.settings.password+${Date.now()}@example.com`;
+    const password = "TestPassword!123";
+    await createTestUser(email, password);
+
+    const login = await request(app).post("/auth/login").send({ email, password });
+    const accessToken = login.body.data.session.access_token as string;
+
+    const response = await request(app)
+      .post("/settings/password")
+      .set("Authorization", `Bearer ${accessToken}`)
+      .send({ currentPassword: "short", newPassword: "tiny" });
+
+    expect(response.status).toBe(400);
+    expect(response.body.code).toBe("VALIDATION_ERROR");
+  });
+
+  it("updates password with valid current password", async () => {
+    const email = `hemera.settings.password.valid+${Date.now()}@example.com`;
+    const currentPassword = "TestPassword!123";
+    const newPassword = "NewPassword!123";
+    await createTestUser(email, currentPassword);
+
+    const login = await request(app).post("/auth/login").send({ email, password: currentPassword });
+    const accessToken = login.body.data.session.access_token as string;
+
+    const response = await request(app)
+      .post("/settings/password")
+      .set("Authorization", `Bearer ${accessToken}`)
+      .send({ currentPassword, newPassword });
+
+    expect(response.status).toBe(200);
+    expect(response.body.success).toBe(true);
+
+    const loginWithNewPassword = await request(app).post("/auth/login").send({ email, password: newPassword });
+    expect(loginWithNewPassword.status).toBe(200);
+    expect(loginWithNewPassword.body.success).toBe(true);
+  });
+
+  it("rejects account delete without DELETE confirmation", async () => {
+    const email = `hemera.settings.delete+${Date.now()}@example.com`;
+    const password = "TestPassword!123";
+    await createTestUser(email, password);
+
+    const login = await request(app).post("/auth/login").send({ email, password });
+    const accessToken = login.body.data.session.access_token as string;
+
+    const response = await request(app)
+      .delete("/settings/account")
+      .set("Authorization", `Bearer ${accessToken}`)
+      .send({ confirmation: "NOPE" });
+
+    expect(response.status).toBe(400);
+    expect(response.body.code).toBe("VALIDATION_ERROR");
+  });
+
+  it("deletes account with DELETE confirmation", async () => {
+    const email = `hemera.settings.delete.valid+${Date.now()}@example.com`;
+    const password = "TestPassword!123";
+    await createTestUser(email, password);
+
+    const login = await request(app).post("/auth/login").send({ email, password });
+    const accessToken = login.body.data.session.access_token as string;
+
+    const response = await request(app)
+      .delete("/settings/account")
+      .set("Authorization", `Bearer ${accessToken}`)
+      .send({ confirmation: "DELETE" });
+
+    expect(response.status).toBe(200);
+    expect(response.body.success).toBe(true);
+    expect(response.body.data.deleted).toBe(true);
+  });
+
   it("prevents user from accessing another user's settings via RLS", async () => {
     const userAEmail = `hemera.settings.a+${Date.now()}@example.com`;
     const userBEmail = `hemera.settings.b+${Date.now()}@example.com`;

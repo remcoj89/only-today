@@ -57,21 +57,6 @@ describe("auth integration flow", () => {
   });
 
   it("runs full user lifecycle", async () => {
-    // #region agent log
-    fetch("http://127.0.0.1:7242/ingest/8f2b6680-c47c-4e5b-b9d7-488dc9e2d3be", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        sessionId: "debug-session",
-        runId: "pre-fix",
-        hypothesisId: "H11",
-        location: "auth.integration.test.ts:runs full user lifecycle",
-        message: "lifecycle.start",
-        data: {},
-        timestamp: Date.now()
-      })
-    }).catch(() => {});
-    // #endregion
     const { adminEmail, adminPassword } = await createAdminUser();
 
     const adminLogin = await request(app).post("/auth/login").send({
@@ -101,21 +86,6 @@ describe("auth integration flow", () => {
       .set("Authorization", `Bearer ${accessTokenA}`)
       .send({ timezone: "Europe/Amsterdam" });
     expect(updateSettings.status).toBe(200);
-    // #region agent log
-    fetch("http://127.0.0.1:7242/ingest/8f2b6680-c47c-4e5b-b9d7-488dc9e2d3be", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        sessionId: "debug-session",
-        runId: "pre-fix",
-        hypothesisId: "H11",
-        location: "auth.integration.test.ts:runs full user lifecycle",
-        message: "lifecycle.afterSettings",
-        data: {},
-        timestamp: Date.now()
-      })
-    }).catch(() => {});
-    // #endregion
 
     await request(app)
       .get("/devices")
@@ -132,102 +102,27 @@ describe("auth integration flow", () => {
       .set("Authorization", `Bearer ${accessTokenA}`);
     expect(deviceList.status).toBe(200);
     expect(deviceList.body.data.devices.length).toBeGreaterThanOrEqual(2);
-    // #region agent log
-    fetch("http://127.0.0.1:7242/ingest/8f2b6680-c47c-4e5b-b9d7-488dc9e2d3be", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        sessionId: "debug-session",
-        runId: "pre-fix",
-        hypothesisId: "H11",
-        location: "auth.integration.test.ts:runs full user lifecycle",
-        message: "lifecycle.afterDevices",
-        data: { deviceCount: deviceList.body.data.devices.length },
-        timestamp: Date.now()
-      })
-    }).catch(() => {});
-    // #endregion
 
     const revokeDevice = await request(app)
       .delete("/devices/device-1")
       .set("Authorization", `Bearer ${accessTokenA}`);
     expect(revokeDevice.status).toBe(200);
-    // #region agent log
-    fetch("http://127.0.0.1:7242/ingest/8f2b6680-c47c-4e5b-b9d7-488dc9e2d3be", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        sessionId: "debug-session",
-        runId: "pre-fix",
-        hypothesisId: "H15",
-        location: "auth.integration.test.ts:runs full user lifecycle",
-        message: "lifecycle.afterRevokeDevice",
-        data: { status: revokeDevice.status },
-        timestamp: Date.now()
-      })
-    }).catch(() => {});
-    // #endregion
 
     const blockResponse = await request(app)
       .post(`/admin/users/${userId}/block`)
       .set("Authorization", `Bearer ${adminToken}`);
     expect(blockResponse.status).toBe(200);
-    // #region agent log
-    fetch("http://127.0.0.1:7242/ingest/8f2b6680-c47c-4e5b-b9d7-488dc9e2d3be", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        sessionId: "debug-session",
-        runId: "pre-fix",
-        hypothesisId: "H14",
-        location: "auth.integration.test.ts:runs full user lifecycle",
-        message: "lifecycle.afterBlock",
-        data: { status: blockResponse.status },
-        timestamp: Date.now()
-      })
-    }).catch(() => {});
-    // #endregion
 
     const blockedDevices = await request(app)
       .get("/devices")
       .set("Authorization", `Bearer ${accessTokenA}`);
     // Blocked users krijgen 401 (niet 403) - security best practice om geen account status te lekken
     expect(blockedDevices.status).toBe(401);
-    // #region agent log
-    fetch("http://127.0.0.1:7242/ingest/8f2b6680-c47c-4e5b-b9d7-488dc9e2d3be", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        sessionId: "debug-session",
-        runId: "pre-fix",
-        hypothesisId: "H14",
-        location: "auth.integration.test.ts:runs full user lifecycle",
-        message: "lifecycle.afterBlockedDevices",
-        data: { status: blockedDevices.status },
-        timestamp: Date.now()
-      })
-    }).catch(() => {});
-    // #endregion
 
     const unblockResponse = await request(app)
       .post(`/admin/users/${userId}/unblock`)
       .set("Authorization", `Bearer ${adminToken}`);
     expect(unblockResponse.status).toBe(200);
-    // #region agent log
-    fetch("http://127.0.0.1:7242/ingest/8f2b6680-c47c-4e5b-b9d7-488dc9e2d3be", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        sessionId: "debug-session",
-        runId: "pre-fix",
-        hypothesisId: "H14",
-        location: "auth.integration.test.ts:runs full user lifecycle",
-        message: "lifecycle.afterUnblock",
-        data: { status: unblockResponse.status },
-        timestamp: Date.now()
-      })
-    }).catch(() => {});
-    // #endregion
 
     const relogin = await request(app).post("/auth/login").send({ email: userEmail, password: userPassword });
     expect(relogin.status).toBe(200);
@@ -237,75 +132,15 @@ describe("auth integration flow", () => {
       .get("/devices")
       .set("Authorization", `Bearer ${accessTokenB}`);
     expect(unblockedDevices.status).toBe(200);
-    // #region agent log
-    fetch("http://127.0.0.1:7242/ingest/8f2b6680-c47c-4e5b-b9d7-488dc9e2d3be", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        sessionId: "debug-session",
-        runId: "pre-fix",
-        hypothesisId: "H14",
-        location: "auth.integration.test.ts:runs full user lifecycle",
-        message: "lifecycle.afterUnblockedDevices",
-        data: { status: unblockedDevices.status },
-        timestamp: Date.now()
-      })
-    }).catch(() => {});
-    // #endregion
 
-    // #region agent log
-    fetch("http://127.0.0.1:7242/ingest/8f2b6680-c47c-4e5b-b9d7-488dc9e2d3be", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        sessionId: "debug-session",
-        runId: "pre-fix",
-        hypothesisId: "H11",
-        location: "auth.integration.test.ts:runs full user lifecycle",
-        message: "lifecycle.beforeDelete",
-        data: { userId },
-        timestamp: Date.now()
-      })
-    }).catch(() => {});
-    // #endregion
     const deleteResponse = await request(app)
       .delete(`/admin/users/${userId}`)
       .set("Authorization", `Bearer ${adminToken}`);
     expect(deleteResponse.status).toBe(200);
-    // #region agent log
-    fetch("http://127.0.0.1:7242/ingest/8f2b6680-c47c-4e5b-b9d7-488dc9e2d3be", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        sessionId: "debug-session",
-        runId: "pre-fix",
-        hypothesisId: "H11",
-        location: "auth.integration.test.ts:runs full user lifecycle",
-        message: "lifecycle.afterDelete",
-        data: {},
-        timestamp: Date.now()
-      })
-    }).catch(() => {});
-    // #endregion
 
     const deletedDevices = await request(app)
       .get("/devices")
       .set("Authorization", `Bearer ${accessTokenB}`);
-    // #region agent log
-    fetch("http://127.0.0.1:7242/ingest/8f2b6680-c47c-4e5b-b9d7-488dc9e2d3be", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        sessionId: "debug-session",
-        runId: "pre-fix",
-        hypothesisId: "H11",
-        location: "auth.integration.test.ts:runs full user lifecycle",
-        message: "lifecycle.afterDeletedDevices",
-        data: { status: deletedDevices.status },
-        timestamp: Date.now()
-      })
-    }).catch(() => {});
-    // #endregion
     expect(deletedDevices.status).toBe(401);
   }, 30000);
 });

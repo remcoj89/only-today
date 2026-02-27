@@ -1,3 +1,6 @@
+import { existsSync, readFileSync } from "node:fs";
+import path from "node:path";
+
 export type AppConfig = {
   supabaseUrl: string;
   supabaseAnonKey: string;
@@ -5,6 +8,45 @@ export type AppConfig = {
   databaseUrl: string;
   nodeEnv: string;
 };
+
+function loadEnvFileIfPresent(filePath: string): void {
+  if (!existsSync(filePath)) {
+    return;
+  }
+
+  const raw = readFileSync(filePath, "utf8");
+  for (const line of raw.split(/\r?\n/)) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith("#")) {
+      continue;
+    }
+    const equalIndex = trimmed.indexOf("=");
+    if (equalIndex <= 0) {
+      continue;
+    }
+    const key = trimmed.slice(0, equalIndex).trim();
+    const value = trimmed.slice(equalIndex + 1).trim();
+    if (!process.env[key]) {
+      process.env[key] = value;
+    }
+  }
+}
+
+function bootstrapEnv(): void {
+  const cwd = process.cwd();
+  const candidates = [
+    path.resolve(cwd, ".env"),
+    path.resolve(cwd, ".env.local"),
+    path.resolve(cwd, "../.env"),
+    path.resolve(cwd, "../../.env"),
+  ];
+
+  for (const filePath of candidates) {
+    loadEnvFileIfPresent(filePath);
+  }
+}
+
+bootstrapEnv();
 
 function requireEnv(key: string): string {
   const value = process.env[key];

@@ -3,7 +3,7 @@ import { getSupabaseAdminClient, getSupabaseClient } from "../db/client";
 import { AppError } from "../errors";
 import { authMiddleware } from "../middleware/auth";
 import { validateRequest } from "../middleware/validateRequest";
-import { loginSchema, refreshSchema, registerSchema } from "../schemas/auth";
+import { forgotPasswordSchema, loginSchema, refreshSchema, registerSchema } from "../schemas/auth";
 import { createUserSettings } from "../services/userService";
 import { config } from "../config";
 
@@ -26,6 +26,7 @@ function logDebug(payload: { location: string; message: string; data?: Record<st
   }).catch(() => {});
   // #endregion
 }
+
 
 authRoutes.post("/register", validateRequest({ body: registerSchema }), async (req, res, next) => {
   try {
@@ -230,3 +231,28 @@ authRoutes.post("/refresh", validateRequest({ body: refreshSchema }), async (req
     return next(err as Error);
   }
 });
+
+authRoutes.post(
+  "/forgot-password",
+  validateRequest({ body: forgotPasswordSchema }),
+  async (req, res, next) => {
+    try {
+      const { email } = req.body as { email: string };
+      const client = getSupabaseClient();
+      const { error } = await client.auth.resetPasswordForEmail(email);
+
+      if (error) {
+        return next(AppError.internal("Failed to trigger password reset"));
+      }
+
+      return res.status(200).json({
+        success: true,
+        data: {
+          message: "If this email exists, a reset link has been sent."
+        }
+      });
+    } catch (err) {
+      return next(err as Error);
+    }
+  }
+);

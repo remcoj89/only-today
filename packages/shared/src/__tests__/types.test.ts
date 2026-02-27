@@ -12,6 +12,12 @@ import {
   MonthGoal,
   QuarterStartContent,
   QuarterGoal,
+  SyncMutation,
+  SyncPullRequest,
+  SyncPullResponse,
+  SyncPushRequest,
+  SyncPushResponse,
+  SyncMutationResult,
   SubscriptionStatus,
   TaskItem,
   UserSettings,
@@ -132,6 +138,39 @@ describe("shared types", () => {
       data: { ok: true }
     };
 
+    const mutation: SyncMutation = {
+      id: "mutation-1",
+      docType: DocType.Day,
+      docKey: "2026-01-24",
+      content: { summary: "Daily notes" },
+      clientUpdatedAt: new Date().toISOString(),
+      deviceId: "device-1",
+      operation: "upsert"
+    };
+
+    const pushRequest: SyncPushRequest = {
+      mutations: [mutation]
+    };
+
+    const pushResult: SyncMutationResult = {
+      id: mutation.id,
+      success: true
+    };
+
+    const pushResponse: SyncPushResponse = {
+      results: [pushResult]
+    };
+
+    const pullRequest: SyncPullRequest = {
+      since: new Date().toISOString(),
+      docTypes: [DocType.Day, DocType.Week]
+    };
+
+    const pullResponse: SyncPullResponse = {
+      documents: [document],
+      serverTime: new Date().toISOString()
+    };
+
     expect(settings.timezone).toBe("Europe/Amsterdam");
     expect(task.pomodorosPlanned).toBe(2);
     expect(document.status).toBe(DocStatus.Open);
@@ -142,6 +181,10 @@ describe("shared types", () => {
     expect(month.monthlyGoals[0].title).toBe("Launch beta");
     expect(quarter.lifeWheel.growth).toBe(8);
     expect(response.success).toBe(true);
+    expect(pushRequest.mutations[0].operation).toBe("upsert");
+    expect(pushResponse.results[0].success).toBe(true);
+    expect(pullRequest.docTypes?.length).toBe(2);
+    expect(pullResponse.documents[0].id).toBe("doc-1");
 
     const subscription: SubscriptionStatus = SubscriptionStatus.Free;
     const errorCode: ErrorCode = ErrorCode.Unauthorized;

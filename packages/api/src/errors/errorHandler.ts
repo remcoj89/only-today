@@ -9,21 +9,6 @@ export function errorHandler(
   _next: NextFunction
 ) {
   if (err instanceof AppError) {
-    // #region agent log
-    fetch("http://127.0.0.1:7242/ingest/8f2b6680-c47c-4e5b-b9d7-488dc9e2d3be", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        sessionId: "debug-session",
-        runId: "pre-fix",
-        hypothesisId: "H22",
-        location: "errors/errorHandler.ts:errorHandler",
-        message: "errorHandler.appError",
-        data: { status: err.httpStatus, code: err.code },
-        timestamp: Date.now()
-      })
-    }).catch(() => {});
-    // #endregion
     const payload = {
       success: false,
       code: err.code,

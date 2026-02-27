@@ -13,3 +13,7 @@ export const loginSchema = z.object({
 export const refreshSchema = z.object({
   refreshToken: z.string().min(1)
 });
+
+export const forgotPasswordSchema = z.object({
+  email: z.string().email()
+});

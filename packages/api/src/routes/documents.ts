@@ -38,10 +38,11 @@ documentRoutes.put(
         return next(AppError.unauthorized("Missing user context"));
       }
       const { docType, docKey } = req.params as { docType: DocType; docKey: string };
-      const { content, clientUpdatedAt, deviceId } = req.body as {
+      const { content, clientUpdatedAt, deviceId, status } = req.body as {
         content: Record<string, unknown>;
         clientUpdatedAt: string;
         deviceId?: string;
+        status?: "open" | "closed" | "auto_closed";
       };
       const result = await saveDocument(
         req.userId,
@@ -50,7 +51,8 @@ documentRoutes.put(
         docKey,
         content,
         clientUpdatedAt,
-        deviceId
+        deviceId,
+        status
       );
       const data: Record<string, unknown> = { document: result.document };
       if (result.conflictResolution) {

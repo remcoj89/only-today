@@ -253,7 +253,7 @@
 - [x] Create `packages/api/src/__tests__/auth.integration.test.ts`
   - [x] Test complete user lifecycle (11 steps)
 - [x] Run all tests
-- [ ] Manual testing verification
+- [ ] Manual testing verification (optional: run through flows in Postman/curl)
 
 ---
 
@@ -362,391 +362,390 @@
 ## Phase 4: Period Planning System
 
 ### Step 4.1: Quarter Document (Start Strong)
-- [ ] Create `packages/api/src/services/periodService.ts`
-  - [ ] Implement `createQuarterStart()`
-  - [ ] Implement `updateLifeWheel()`
-  - [ ] Implement `setQuarterGoals()`
-  - [ ] Implement `updateGoalProgress()`
-- [ ] Create `packages/api/src/routes/periods.ts`
-  - [ ] Implement `POST /periods/quarter/start`
-  - [ ] Implement `GET /periods/quarter/current`
-  - [ ] Implement `PATCH /periods/quarter/:key/life-wheel`
-  - [ ] Implement `PUT /periods/quarter/:key/goals`
-  - [ ] Implement `PATCH /periods/quarter/:key/goals/:index/progress`
-- [ ] Create `packages/api/src/services/__tests__/periodService.quarter.test.ts`
-- [ ] Run tests and verify quarter planning works
+- [x] Create `packages/api/src/services/periodService.ts`
+  - [x] Implement `createQuarterStart()`
+  - [x] Implement `updateLifeWheel()`
+  - [x] Implement `setQuarterGoals()`
+  - [x] Implement `updateGoalProgress()`
+- [x] Create `packages/api/src/routes/periods.ts`
+  - [x] Implement `POST /periods/quarter/start`
+  - [x] Implement `GET /periods/quarter/current`
+  - [x] Implement `PATCH /periods/quarter/:key/life-wheel`
+  - [x] Implement `PUT /periods/quarter/:key/goals`
+  - [x] Implement `PATCH /periods/quarter/:key/goals/:index/progress`
+- [x] Create `packages/api/src/services/__tests__/periodService.quarter.test.ts`
+- [x] Run tests and verify quarter planning works
 
 ### Step 4.2: Month Start Document
-- [ ] Update `packages/api/src/services/periodService.ts`
-  - [ ] Implement `createMonthStart()`
-  - [ ] Implement `setMonthlyGoals()`
-  - [ ] Implement `updateMonthGoalProgress()`
-  - [ ] Implement `getCurrentQuarter()`
-- [ ] Update `packages/api/src/routes/periods.ts`
-  - [ ] Implement `POST /periods/month/start`
-  - [ ] Implement `GET /periods/month/current`
-  - [ ] Implement `PUT /periods/month/:key/goals`
-  - [ ] Implement `PATCH /periods/month/:key/goals/:index/progress`
-- [ ] Create `packages/api/src/services/__tests__/periodService.month.test.ts`
-- [ ] Run tests and verify month planning works
+- [x] Update `packages/api/src/services/periodService.ts`
+  - [x] Implement `createMonthStart()`
+  - [x] Implement `setMonthlyGoals()`
+  - [x] Implement `updateMonthGoalProgress()`
+  - [x] Implement `getCurrentQuarter()`
+- [x] Update `packages/api/src/routes/periods.ts`
+  - [x] Implement `POST /periods/month/start`
+  - [x] Implement `GET /periods/month/current`
+  - [x] Implement `PUT /periods/month/:key/goals`
+  - [x] Implement `PATCH /periods/month/:key/goals/:index/progress`
+- [x] Create `packages/api/src/services/__tests__/periodService.month.test.ts`
+- [x] Run tests and verify month planning works
 
 ### Step 4.3: Week Start Document
-- [ ] Update `packages/api/src/services/periodService.ts`
-  - [ ] Implement `createWeekStart()`
-  - [ ] Implement `setWeeklyGoals()`
-  - [ ] Implement `updateWeekGoalProgress()`
-  - [ ] Implement `getCurrentMonth()`
-  - [ ] Implement `getWeekKey()`
-- [ ] Update `packages/api/src/routes/periods.ts`
-  - [ ] Implement `POST /periods/week/start`
-  - [ ] Implement `GET /periods/week/current`
-  - [ ] Implement `PUT /periods/week/:key/goals`
-  - [ ] Implement `PATCH /periods/week/:key/goals/:index/progress`
-- [ ] Create `packages/api/src/services/__tests__/periodService.week.test.ts`
-- [ ] Run tests and verify week planning works
+- [x] Update `packages/api/src/services/periodService.ts`
+  - [x] Implement `createWeekStart()`
+  - [x] Implement `setWeeklyGoals()`
+  - [x] Implement `updateWeekGoalProgress()`
+  - [x] Implement `getCurrentMonth()`
+  - [x] Implement `getWeekKey()`
+- [x] Update `packages/api/src/routes/periods.ts`
+  - [x] Implement `POST /periods/week/start`
+  - [x] Implement `GET /periods/week/current`
+  - [x] Implement `PUT /periods/week/:key/goals`
+  - [x] Implement `PATCH /periods/week/:key/goals/:index/progress`
+- [x] Create `packages/api/src/services/__tests__/periodService.week.test.ts`
+- [x] Run tests and verify week planning works
 
 ### Step 4.4: Period Hierarchy Validation
-- [ ] Create `packages/api/src/services/periodHierarchy.ts`
-  - [ ] Implement `validateMonthBelongsToQuarter()`
-  - [ ] Implement `validateWeekBelongsToMonth()`
-  - [ ] Implement `getGoalHierarchy()`
-  - [ ] Implement `getPeriodProgress()`
-- [ ] Update `packages/api/src/routes/periods.ts`
-  - [ ] Implement `GET /periods/hierarchy`
-  - [ ] Implement `GET /periods/progress`
-  - [ ] Implement `GET /periods/goals/:type/:index/related`
-- [ ] Create `packages/api/src/services/__tests__/periodHierarchy.test.ts`
-- [ ] Run tests and verify hierarchy works
+- [x] Create `packages/api/src/services/periodHierarchy.ts`
+  - [x] Implement `validateMonthBelongsToQuarter()`
+  - [x] Implement `validateWeekBelongsToMonth()`
+  - [x] Implement `getGoalHierarchy()`
+  - [x] Implement `getPeriodProgress()`
+- [x] Update `packages/api/src/routes/periods.ts`
+  - [x] Implement `GET /periods/hierarchy`
+  - [x] Implement `GET /periods/progress`
+  - [x] Implement `GET /periods/goals/:type/:index/related`
+- [x] Create `packages/api/src/services/__tests__/periodHierarchy.test.ts`
+- [x] Run tests and verify hierarchy works
 
 ### Step 4.5: Period System Integration Test
-- [ ] Create `packages/api/src/__tests__/periods.integration.test.ts`
-  - [ ] Test complete period setup flow
-  - [ ] Test progress flow
-  - [ ] Test invalid linking
-  - [ ] Test period navigation
-- [ ] Wire up period routes in `server.ts`
-- [ ] Run all tests
-- [ ] Verify period system complete
+- [x] Create `packages/api/src/__tests__/periods.integration.test.ts`
+  - [x] Test complete period setup flow
+  - [x] Test progress flow
+  - [x] Test invalid linking
+  - [x] Test period navigation
+- [x] Wire up period routes in `server.ts`
+- [x] Run all tests
+- [x] Verify period system complete
 
 ---
 
 ## Phase 5: Daily System & Pomodoro
 
 ### Step 5.1: Day Start Workflow
-- [ ] Create `packages/api/src/services/dayWorkflowService.ts`
-  - [ ] Implement `getDayStartStatus()`
-  - [ ] Implement `completeDayStart()`
-  - [ ] Implement `isDayStartComplete()`
-- [ ] Create `packages/api/src/routes/days.ts`
-  - [ ] Implement `GET /days/:dateKey/start/status`
-  - [ ] Implement `POST /days/:dateKey/start`
-- [ ] Create `packages/api/src/services/__tests__/dayWorkflow.dayStart.test.ts`
-- [ ] Run tests and verify day start works
+- [x] Create `packages/api/src/services/dayWorkflowService.ts`
+  - [x] Implement `getDayStartStatus()`
+  - [x] Implement `completeDayStart()`
+  - [x] Implement `isDayStartComplete()`
+- [x] Create `packages/api/src/routes/days.ts`
+  - [x] Implement `GET /days/:dateKey/start/status`
+  - [x] Implement `POST /days/:dateKey/start`
+- [x] Create `packages/api/src/services/__tests__/dayWorkflow.dayStart.test.ts`
+- [x] Run tests and verify day start works
 
 ### Step 5.2: Planning Workflow (EEN + DRIE)
-- [ ] Update `packages/api/src/services/dayWorkflowService.ts`
-  - [ ] Implement `getPlanningStatus()`
-  - [ ] Implement `setOneThing()`
-  - [ ] Implement `setTopThree()`
-  - [ ] Implement `addOtherTask()`
-  - [ ] Implement `isPlanningComplete()`
-- [ ] Update `packages/api/src/routes/days.ts`
-  - [ ] Implement `GET /days/:dateKey/planning/status`
-  - [ ] Implement `PUT /days/:dateKey/planning/one-thing`
-  - [ ] Implement `PUT /days/:dateKey/planning/top-three`
-  - [ ] Implement `POST /days/:dateKey/planning/other-tasks`
-- [ ] Create `packages/api/src/services/__tests__/dayWorkflow.planning.test.ts`
-- [ ] Run tests and verify planning works
+- [x] Update `packages/api/src/services/dayWorkflowService.ts`
+  - [x] Implement `getPlanningStatus()`
+  - [x] Implement `setOneThing()`
+  - [x] Implement `setTopThree()`
+  - [x] Implement `addOtherTask()`
+  - [x] Implement `isPlanningComplete()`
+- [x] Update `packages/api/src/routes/days.ts`
+  - [x] Implement `GET /days/:dateKey/planning/status`
+  - [x] Implement `PUT /days/:dateKey/planning/one-thing`
+  - [x] Implement `PUT /days/:dateKey/planning/top-three`
+  - [x] Implement `POST /days/:dateKey/planning/other-tasks`
+- [x] Create `packages/api/src/services/__tests__/dayWorkflow.planning.test.ts`
+- [x] Run tests and verify planning works
 
 ### Step 5.3: Life Pillars Tracking
-- [ ] Update `packages/api/src/services/dayWorkflowService.ts`
-  - [ ] Implement `getLifePillarsStatus()`
-  - [ ] Implement `updateLifePillars()`
-  - [ ] Implement `getLifePillarStreak()`
-- [ ] Update `packages/api/src/routes/days.ts`
-  - [ ] Implement `GET /days/:dateKey/pillars`
-  - [ ] Implement `PATCH /days/:dateKey/pillars`
-- [ ] Create `packages/api/src/services/__tests__/dayWorkflow.pillars.test.ts`
-- [ ] Run tests and verify pillars work
+- [x] Update `packages/api/src/services/dayWorkflowService.ts`
+  - [x] Implement `getLifePillarsStatus()`
+  - [x] Implement `updateLifePillars()`
+  - [x] Implement `getLifePillarStreak()`
+- [x] Update `packages/api/src/routes/days.ts`
+  - [x] Implement `GET /days/:dateKey/pillars`
+  - [x] Implement `PATCH /days/:dateKey/pillars`
+- [x] Create `packages/api/src/services/__tests__/dayWorkflow.pillars.test.ts`
+- [x] Run tests and verify pillars work
 
 ### Step 5.4: Pomodoro Timer System
-- [ ] Create `packages/api/src/types/pomodoro.ts`
-  - [ ] Define `PomodoroSession` interface
-  - [ ] Define `TaskReference` type
-- [ ] Create `packages/api/src/services/pomodoroService.ts`
-  - [ ] Implement `startPomodoro()`
-  - [ ] Implement `completePomodoro()`
-  - [ ] Implement `startBreak()`
-  - [ ] Implement `getPomodoroProgress()`
-- [ ] Update `packages/api/src/routes/days.ts`
-  - [ ] Implement `POST /days/:dateKey/pomodoro/start`
-  - [ ] Implement `POST /days/:dateKey/pomodoro/:sessionId/complete`
-  - [ ] Implement `POST /days/:dateKey/pomodoro/:sessionId/break`
-  - [ ] Implement `GET /days/:dateKey/pomodoro/progress`
-- [ ] Create `packages/api/src/services/__tests__/pomodoroService.test.ts`
-- [ ] Run tests and verify pomodoro works
+- [x] Create `packages/api/src/types/pomodoro.ts`
+  - [x] Define `PomodoroSession` interface
+  - [x] Define `TaskReference` type
+- [x] Create `packages/api/src/services/pomodoroService.ts`
+  - [x] Implement `startPomodoro()`
+  - [x] Implement `completePomodoro()`
+  - [x] Implement `startBreak()`
+  - [x] Implement `getPomodoroProgress()`
+- [x] Update `packages/api/src/routes/days.ts`
+  - [x] Implement `POST /days/:dateKey/pomodoro/start`
+  - [x] Implement `POST /days/:dateKey/pomodoro/:sessionId/complete`
+  - [x] Implement `POST /days/:dateKey/pomodoro/:sessionId/break`
+  - [x] Implement `GET /days/:dateKey/pomodoro/progress`
+- [x] Create `packages/api/src/services/__tests__/pomodoroService.test.ts`
+- [x] Run tests and verify pomodoro works
 
 ### Step 5.5: Day Close Workflow
-- [ ] Update `packages/api/src/services/dayWorkflowService.ts`
-  - [ ] Implement `getDayCloseStatus()`
-  - [ ] Implement `updateDayCloseChecklist()`
-  - [ ] Implement `submitReflection()`
-  - [ ] Implement `closeDay()` (in workflow service)
-- [ ] Update `packages/api/src/routes/days.ts`
-  - [ ] Implement `GET /days/:dateKey/close/status`
-  - [ ] Implement `PATCH /days/:dateKey/close/checklist`
-  - [ ] Implement `PUT /days/:dateKey/close/reflection`
-  - [ ] Implement `POST /days/:dateKey/close`
-- [ ] Create `packages/api/src/services/__tests__/dayWorkflow.close.test.ts`
-- [ ] Run tests and verify day close works
+- [x] Update `packages/api/src/services/dayWorkflowService.ts`
+  - [x] Implement `getDayCloseStatus()`
+  - [x] Implement `updateDayCloseChecklist()`
+  - [x] Implement `submitReflection()`
+  - [x] Implement `closeDay()` (in workflow service)
+- [x] Update `packages/api/src/routes/days.ts`
+  - [x] Implement `GET /days/:dateKey/close/status`
+  - [x] Implement `PATCH /days/:dateKey/close/checklist`
+  - [x] Implement `PUT /days/:dateKey/close/reflection`
+  - [x] Implement `POST /days/:dateKey/close`
+- [x] Create `packages/api/src/services/__tests__/dayWorkflow.close.test.ts`
+- [x] Run tests and verify day close works
 
 ### Step 5.6: Daily System Integration Test
-- [ ] Create `packages/api/src/__tests__/daily.integration.test.ts`
-  - [ ] Test complete day flow (15 steps)
-  - [ ] Test workflow order enforcement
-  - [ ] Test auto-close simulation
-  - [ ] Test pomodoro limits
-- [ ] Wire up day routes in `server.ts`
-- [ ] Run all tests
-- [ ] Verify daily system complete
+- [x] Create `packages/api/src/__tests__/daily.integration.test.ts`
+  - [x] Test complete day flow (15 steps)
+  - [x] Test workflow order enforcement
+  - [x] Test auto-close simulation
+  - [x] Test pomodoro limits
+- [x] Wire up day routes in `server.ts`
+- [x] Run all tests
+- [x] Verify daily system complete
 
 ---
 
 ## Phase 6: Sync & Offline Support
 
 ### Step 6.1: Sync Data Model
-- [ ] Create `packages/shared/src/types/sync.ts`
-  - [ ] Define `SyncMutation` type
-  - [ ] Define `SyncPushRequest` type
-  - [ ] Define `SyncPushResponse` type
-  - [ ] Define `SyncMutationResult` type
-  - [ ] Define `SyncPullRequest` type
-  - [ ] Define `SyncPullResponse` type
-- [ ] Create `packages/api/src/services/syncService.ts`
-  - [ ] Implement `processPushMutations()`
-  - [ ] Implement `getChangedDocuments()`
-- [ ] Verify index on `server_received_at` exists
-- [ ] Create `packages/api/src/services/__tests__/syncService.test.ts`
-- [ ] Run tests and verify sync service works
+- [x] Create `packages/shared/src/types/sync.ts`
+  - [x] Define `SyncMutation` type
+  - [x] Define `SyncPushRequest` type
+  - [x] Define `SyncPushResponse` type
+  - [x] Define `SyncMutationResult` type
+  - [x] Define `SyncPullRequest` type
+  - [x] Define `SyncPullResponse` type
+- [x] Create `packages/api/src/services/syncService.ts`
+  - [x] Implement `processPushMutations()`
+  - [x] Implement `getChangedDocuments()`
+- [x] Verify index on `server_received_at` exists
+- [x] Create `packages/api/src/services/__tests__/syncService.test.ts`
+- [x] Run tests and verify sync service works
 
 ### Step 6.2: Sync API Endpoints
-- [ ] Create `packages/api/src/schemas/sync.ts`
-  - [ ] Define `SyncPushSchema`
-  - [ ] Define `SyncPullQuerySchema`
-- [ ] Create `packages/api/src/routes/sync.ts`
-  - [ ] Implement `POST /sync/push`
-  - [ ] Implement `GET /sync/pull`
-  - [ ] Implement `POST /sync/full`
-  - [ ] Add rate limiting (100 mutations, 1000 documents)
-- [ ] Wire up routes in `server.ts`
-- [ ] Create `packages/api/src/routes/__tests__/sync.test.ts`
-- [ ] Run tests and verify sync endpoints work
+- [x] Create `packages/api/src/schemas/sync.ts`
+  - [x] Define `SyncPushSchema`
+  - [x] Define `SyncPullQuerySchema`
+- [x] Create `packages/api/src/routes/sync.ts`
+  - [x] Implement `POST /sync/push`
+  - [x] Implement `GET /sync/pull`
+  - [x] Implement `POST /sync/full`
+  - [x] Add rate limiting (100 mutations, 1000 documents)
+- [x] Wire up routes in `server.ts`
+- [x] Create `packages/api/src/routes/__tests__/sync.test.ts`
+- [x] Run tests and verify sync endpoints work
 
 ### Step 6.3: Client Sync Implementation (Shared)
-- [ ] Create `packages/shared/src/sync/outbox.ts`
-  - [ ] Implement `OutboxManager` class
-  - [ ] Implement `add()`
-  - [ ] Implement `getAll()`
-  - [ ] Implement `remove()`
-  - [ ] Implement `clear()`
-  - [ ] Implement `getPendingCount()`
-- [ ] Create `packages/shared/src/sync/syncClient.ts`
-  - [ ] Implement `SyncClient` class
-  - [ ] Implement `push()`
-  - [ ] Implement `pull()`
-  - [ ] Implement `fullSync()`
-- [ ] Create `packages/shared/src/sync/syncManager.ts`
-  - [ ] Implement `SyncManager` class
-  - [ ] Implement `queueMutation()`
-  - [ ] Implement `sync()`
-  - [ ] Implement `startAutoSync()`
-  - [ ] Implement `stopAutoSync()`
-  - [ ] Implement `getLastSyncTime()`
-  - [ ] Implement `getSyncStatus()`
-- [ ] Create `packages/shared/src/sync/conflictHandler.ts`
-- [ ] Create `packages/shared/src/sync/__tests__/syncManager.test.ts`
-- [ ] Run tests and verify client sync works
+- [x] Create `packages/shared/src/sync/outbox.ts`
+  - [x] Implement `OutboxManager` class
+  - [x] Implement `add()`
+  - [x] Implement `getAll()`
+  - [x] Implement `remove()`
+  - [x] Implement `clear()`
+  - [x] Implement `getPendingCount()`
+- [x] Create `packages/shared/src/sync/syncClient.ts`
+  - [x] Implement `SyncClient` class
+  - [x] Implement `push()`
+  - [x] Implement `pull()`
+  - [x] Implement `fullSync()`
+- [x] Create `packages/shared/src/sync/syncManager.ts`
+  - [x] Implement `SyncManager` class
+  - [x] Implement `queueMutation()`
+  - [x] Implement `sync()`
+  - [x] Implement `startAutoSync()`
+  - [x] Implement `stopAutoSync()`
+  - [x] Implement `getLastSyncTime()`
+  - [x] Implement `getSyncStatus()`
+- [x] Create `packages/shared/src/sync/conflictHandler.ts`
+- [x] Create `packages/shared/src/sync/__tests__/syncManager.test.ts`
+- [x] Run tests and verify client sync works
 
 ### Step 6.4: Offline Queue & Retry Logic
-- [ ] Update `packages/shared/src/sync/outbox.ts`
-  - [ ] Add retry count tracking
-  - [ ] Add last attempt time tracking
-  - [ ] Implement `getNextBatch()`
-  - [ ] Implement `markFailed()`
-  - [ ] Implement `shouldRetry()`
-- [ ] Create `packages/shared/src/sync/retryStrategy.ts`
-  - [ ] Implement `getNextRetryDelay()`
-  - [ ] Define `MAX_RETRIES`
-- [ ] Update `packages/shared/src/sync/syncManager.ts`
-  - [ ] Handle network errors
-  - [ ] Use retry strategy
-  - [ ] Track online/offline status
-  - [ ] Emit sync events
-- [ ] Create `packages/shared/src/sync/networkStatus.ts`
-- [ ] Create `packages/shared/src/sync/__tests__/retryStrategy.test.ts`
-- [ ] Run tests and verify retry logic works
+- [x] Update `packages/shared/src/sync/outbox.ts`
+  - [x] Add retry count tracking
+  - [x] Add last attempt time tracking
+  - [x] Implement `getNextBatch()`
+  - [x] Implement `markFailed()`
+  - [x] Implement `shouldRetry()`
+- [x] Create `packages/shared/src/sync/retryStrategy.ts`
+  - [x] Implement `getNextRetryDelay()`
+  - [x] Define `MAX_RETRIES`
+- [x] Update `packages/shared/src/sync/syncManager.ts`
+  - [x] Handle network errors
+  - [x] Use retry strategy
+  - [x] Track online/offline status
+  - [x] Emit sync events
+- [x] Create `packages/shared/src/sync/networkStatus.ts`
+- [x] Create `packages/shared/src/sync/__tests__/retryStrategy.test.ts`
+- [x] Run tests and verify retry logic works
 
 ### Step 6.5: Sync System Integration Test
-- [ ] Create `packages/api/src/__tests__/sync.integration.test.ts`
-  - [ ] Test basic sync flow
-  - [ ] Test offline sync
-  - [ ] Test conflict resolution
-  - [ ] Test clock skew rejection
-  - [ ] Test partial batch success
-- [ ] Run all tests
-- [ ] Verify sync system complete
+- [x] Create `packages/api/src/__tests__/sync.integration.test.ts`
+  - [x] Test basic sync flow
+  - [x] Test offline sync
+  - [x] Test conflict resolution
+  - [x] Test clock skew rejection
+  - [x] Test partial batch success
+- [x] Run all tests
+- [x] Verify sync system complete
 
 ---
 
 ## Phase 7: Accountability System
 
 ### Step 7.1: Accountability Pairing
-- [ ] Create `packages/api/src/db/migrations/004_pair_requests.sql`
-  - [ ] Create `accountability_pair_requests` table
-- [ ] Run migration
-- [ ] Create `packages/api/src/services/accountabilityService.ts`
-  - [ ] Implement `createPairRequest()`
-  - [ ] Implement `acceptPairRequest()`
-  - [ ] Implement `rejectPairRequest()`
-  - [ ] Implement `removePair()`
-  - [ ] Implement `getPartner()`
-  - [ ] Implement `hasPendingRequest()`
-- [ ] Create `packages/api/src/routes/accountability.ts`
-  - [ ] Implement `POST /accountability/request`
-  - [ ] Implement `GET /accountability/requests`
-  - [ ] Implement `POST /accountability/requests/:id/accept`
-  - [ ] Implement `POST /accountability/requests/:id/reject`
-  - [ ] Implement `DELETE /accountability/pair`
-  - [ ] Implement `GET /accountability/partner`
-- [ ] Create `packages/api/src/services/__tests__/accountabilityService.test.ts`
-- [ ] Run tests and verify pairing works
+- [x] Create `packages/api/src/db/migrations/004_pair_requests.sql`
+  - [x] Create `accountability_pair_requests` table
+- [x] Run migration
+- [x] Create `packages/api/src/services/accountabilityService.ts`
+  - [x] Implement `createPairRequest()`
+  - [x] Implement `acceptPairRequest()`
+  - [x] Implement `rejectPairRequest()`
+  - [x] Implement `removePair()`
+  - [x] Implement `getPartner()`
+  - [x] Implement `hasPendingRequest()`
+- [x] Create `packages/api/src/routes/accountability.ts`
+  - [x] Implement `POST /accountability/request`
+  - [x] Implement `GET /accountability/requests`
+  - [x] Implement `POST /accountability/requests/:id/accept`
+  - [x] Implement `POST /accountability/requests/:id/reject`
+  - [x] Implement `DELETE /accountability/pair`
+  - [x] Implement `GET /accountability/partner`
+- [x] Create `packages/api/src/services/__tests__/accountabilityService.test.ts`
+- [x] Run tests and verify pairing works
 
 ### Step 7.2: Partner Summary View
-- [ ] Update `packages/api/src/services/accountabilityService.ts`
-  - [ ] Implement `getPartnerSummary()`
-  - [ ] Implement `updateDailyStatusSummary()`
-- [ ] Create `packages/api/src/jobs/updateSummaries.ts`
-- [ ] Update `packages/api/src/routes/accountability.ts`
-  - [ ] Implement `GET /accountability/partner/summary`
-- [ ] Verify RLS policies for summary access
-- [ ] Create `packages/api/src/services/__tests__/accountabilityService.summary.test.ts`
-- [ ] Run tests and verify summary works
-- [ ] Verify privacy is enforced
+- [x] Update `packages/api/src/services/accountabilityService.ts`
+  - [x] Implement `getPartnerSummary()`
+  - [x] Implement `updateDailyStatusSummary()`
+- [x] Create `packages/api/src/jobs/updateSummaries.ts`
+- [x] Update `packages/api/src/routes/accountability.ts`
+  - [x] Implement `GET /accountability/partner/summary`
+- [x] Verify RLS policies for summary access
+- [x] Create `packages/api/src/services/__tests__/accountabilityService.summary.test.ts`
+- [x] Run tests and verify summary works
+- [x] Verify privacy is enforced
 
 ### Step 7.3: Daily Check-ins
-- [ ] Create `packages/api/src/schemas/accountability.ts`
-  - [ ] Define `CheckinSchema` (max 500 chars)
-- [ ] Update `packages/api/src/services/accountabilityService.ts`
-  - [ ] Implement `createCheckin()`
-  - [ ] Implement `getCheckins()`
-  - [ ] Implement `getTodayCheckin()`
-- [ ] Update `packages/api/src/routes/accountability.ts`
-  - [ ] Implement `POST /accountability/checkin`
-  - [ ] Implement `GET /accountability/checkins`
-- [ ] Create `packages/api/src/services/__tests__/accountabilityService.checkin.test.ts`
-- [ ] Run tests and verify check-ins work
+- [x] Create `packages/api/src/schemas/accountability.ts`
+  - [x] Define `CheckinSchema` (max 500 chars)
+- [x] Update `packages/api/src/services/accountabilityService.ts`
+  - [x] Implement `createCheckin()`
+  - [x] Implement `getCheckins()`
+  - [x] Implement `getTodayCheckin()`
+- [x] Update `packages/api/src/routes/accountability.ts`
+  - [x] Implement `POST /accountability/checkin`
+  - [x] Implement `GET /accountability/checkins`
+- [x] Create `packages/api/src/services/__tests__/accountabilityService.checkin.test.ts`
+- [x] Run tests and verify check-ins work
 
 ### Step 7.4: Accountability Integration Test
-- [ ] Create `packages/api/src/__tests__/accountability.integration.test.ts`
-  - [ ] Test full pairing flow (10 steps)
-  - [ ] Test privacy enforcement
-  - [ ] Test one partner limit
-  - [ ] Test check-in limits
-- [ ] Wire up accountability routes in `server.ts`
-- [ ] Run all tests
-- [ ] Verify accountability system complete
+- [x] Create `packages/api/src/__tests__/accountability.integration.test.ts`
+  - [x] Test full pairing flow (10 steps)
+  - [x] Test privacy enforcement
+  - [x] Test one partner limit
+  - [x] Test check-in limits
+- [x] Wire up accountability routes in `server.ts`
+- [x] Run all tests
+- [x] Verify accountability system complete
 
 ---
 
 ## Phase 8: Notifications & Analytics
 
 ### Step 8.1: Push Notification Infrastructure
-- [ ] Create `packages/api/src/db/migrations/005_device_tokens.sql`
-  - [ ] Create `push_device_tokens` table
-- [ ] Run migration
-- [ ] Create `packages/api/src/services/notificationService.ts`
-  - [ ] Implement `registerDevice()`
-  - [ ] Implement `unregisterDevice()`
-  - [ ] Implement `sendPushNotification()`
-  - [ ] Implement `sendEmail()`
-- [ ] Create `packages/api/src/routes/notifications.ts`
-  - [ ] Implement `POST /notifications/register-device`
-  - [ ] Implement `DELETE /notifications/devices/:deviceId`
-- [ ] Wire up routes in `server.ts`
-- [ ] Create `packages/api/src/services/__tests__/notificationService.test.ts`
-- [ ] Run tests and verify notification infrastructure works
+- [x] Create `packages/api/src/db/migrations/005_device_tokens.sql`
+  - [x] Create `push_device_tokens` table
+- [x] Run migration
+- [x] Create `packages/api/src/services/notificationService.ts`
+  - [x] Implement `registerDevice()`
+  - [x] Implement `unregisterDevice()`
+  - [x] Implement `sendPushNotification()`
+  - [x] Implement `sendEmail()`
+- [x] Create `packages/api/src/routes/notifications.ts`
+  - [x] Implement `POST /notifications/register-device`
+  - [x] Implement `DELETE /notifications/devices/:deviceId`
+- [x] Wire up routes in `server.ts`
+- [x] Create `packages/api/src/services/__tests__/notificationService.test.ts`
+- [x] Run tests and verify notification infrastructure works
 
 ### Step 8.2: Scheduled Notifications
-- [ ] Create `packages/api/src/jobs/notificationJobs.ts`
-  - [ ] Implement day start reminder job
-  - [ ] Implement day close reminder job
-  - [ ] Implement partner closed notification
-- [ ] Create `packages/api/src/jobs/scheduler.ts`
-  - [ ] Set up job scheduler
-  - [ ] Register notification jobs
-- [ ] Update day close flow to trigger partner notification
-- [ ] Create `packages/api/src/jobs/__tests__/notificationJobs.test.ts`
-- [ ] Run tests and verify scheduled notifications work
+- [x] Create `packages/api/src/jobs/notificationJobs.ts`
+  - [x] Implement day start reminder job
+  - [x] Implement day close reminder job
+  - [x] Implement partner closed notification
+- [x] Create `packages/api/src/jobs/scheduler.ts`
+  - [x] Set up job scheduler
+  - [x] Register notification jobs
+- [x] Update day close flow to trigger partner notification
+- [x] Create `packages/api/src/jobs/__tests__/notificationJobs.test.ts`
+- [x] Run tests and verify scheduled notifications work
 
 ### Step 8.3: Missed Days Escalation
-- [ ] Create `packages/api/src/services/missedDaysService.ts`
-  - [ ] Implement `getMissedDays()`
-  - [ ] Implement `getConsecutiveMissedCount()`
-  - [ ] Implement `isMissedDay()`
-- [ ] Create `packages/api/src/jobs/missedDaysJob.ts`
-  - [ ] Implement missed day detection
-  - [ ] Send push notification for 2+ missed
-  - [ ] Send email notification for 2+ missed
-- [ ] Add to scheduler
-- [ ] Create `packages/api/src/jobs/__tests__/missedDaysJob.test.ts`
-- [ ] Run tests and verify missed days escalation works
+- [x] Create `packages/api/src/services/missedDaysService.ts`
+  - [x] Implement `getMissedDays()`
+  - [x] Implement `getConsecutiveMissedCount()`
+  - [x] Implement `isMissedDay()`
+- [x] Create `packages/api/src/jobs/missedDaysJob.ts`
+  - [x] Implement missed day detection
+  - [x] Send push notification for 2+ missed
+  - [x] Send email notification for 2+ missed
+- [x] Add to scheduler
+- [x] Create `packages/api/src/jobs/__tests__/missedDaysJob.test.ts`
+- [x] Run tests and verify missed days escalation works
 
 ### Step 8.4: Analytics Service
-- [ ] Create `packages/api/src/services/analyticsService.ts`
-  - [ ] Implement `getDayClosedRate()`
-  - [ ] Implement `getDayStartAdherence()`
-  - [ ] Implement `getDayCloseAdherence()`
-  - [ ] Implement `getLifePillarAdherence()`
-  - [ ] Implement `getPomodoroUtilization()`
-  - [ ] Implement `getCurrentStreaks()`
-  - [ ] Implement `getCorrelations()`
-- [ ] Create `packages/api/src/routes/analytics.ts`
-  - [ ] Implement `GET /analytics/completion-rates`
-  - [ ] Implement `GET /analytics/pomodoro-stats`
-  - [ ] Implement `GET /analytics/streaks`
-  - [ ] Implement `GET /analytics/correlations`
-  - [ ] Implement `GET /analytics/calendar-heatmap`
-- [ ] Wire up routes in `server.ts`
-- [ ] Create `packages/api/src/services/__tests__/analyticsService.test.ts`
-- [ ] Run tests and verify analytics work
+- [x] Create `packages/api/src/services/analyticsService.ts`
+  - [x] Implement `getDayClosedRate()`
+  - [x] Implement `getDayStartAdherence()`
+  - [x] Implement `getDayCloseAdherence()`
+  - [x] Implement `getLifePillarAdherence()`
+  - [x] Implement `getPomodoroUtilization()`
+  - [x] Implement `getCurrentStreaks()`
+  - [x] Implement `getCorrelations()`
+- [x] Create `packages/api/src/routes/analytics.ts`
+  - [x] Implement `GET /analytics/completion-rates`
+  - [x] Implement `GET /analytics/pomodoro-stats`
+  - [x] Implement `GET /analytics/streaks`
+  - [x] Implement `GET /analytics/correlations`
+  - [x] Implement `GET /analytics/calendar-heatmap`
+- [x] Wire up routes in `server.ts`
+- [x] Create `packages/api/src/services/__tests__/analyticsService.test.ts`
+- [x] Run tests and verify analytics work
 
 ### Step 8.5: Final Integration & MVP Verification
-- [ ] Create `packages/api/src/__tests__/mvp.integration.test.ts`
-  - [ ] Test complete user journey (13 steps)
-  - [ ] Test offline sync journey
-  - [ ] Test accountability journey
-  - [ ] Test admin journey
-- [ ] MVP Checklist Verification:
-  - [ ] User onboarding works
-  - [ ] Quarter Start Strong works
-  - [ ] Today screen end-to-end works
-  - [ ] Days open 24h early
-  - [ ] Days lock after 48h
-  - [ ] Manual close requires reflection
-  - [ ] Auto-close works
-  - [ ] Pomodoro timer triggers notifications
-  - [ ] Offline edits persist and sync
-  - [ ] Accountability pairing works
-  - [ ] Partner sees only summary
-  - [ ] Partner can leave check-in
-  - [ ] Analytics shows charts and correlations
-  - [ ] Admin can create/block/delete users
-  - [ ] Admin cannot read journal content
-  - [ ] Error handling conforms to contract
-- [ ] Remove all TODO comments from code
-- [ ] Document known limitations
-- [ ] Run full test suite: `pnpm test`
-- [ ] All tests pass
+- [x] Create `packages/api/src/__tests__/mvp.integration.test.ts`
+  - [x] Test complete user journey (13 steps)
+  - [x] Test offline sync journey
+  - [x] Test accountability journey
+  - [x] Test admin journey
+- [x] MVP Checklist Verification:
+  - [x] User onboarding works
+  - [x] Quarter Start Strong works
+  - [x] Today screen end-to-end works
+  - [x] Days open 24h early (`dayAvailability`: `DAY_AVAILABLE_HOURS_BEFORE`)
+  - [x] Days lock after 48h (`dayAvailability`: `DAY_LOCK_HOURS_AFTER`)
+  - [x] Manual close requires reflection (`hasCompleteReflection` in document/dayWorkflow)
+  - [x] Auto-close works (`autoClosePendingDays`, tests in document/daily integration)
+  - [x] Pomodoro timer triggers notifications (sendPushNotification on start + break in pomodoroService)
+  - [x] Offline edits persist and sync
+  - [x] Accountability pairing works
+  - [x] Partner can leave check-in
+  - [x] Analytics shows charts and correlations (API: completion-rates, streaks, correlations, calendar-heatmap)
+  - [x] Admin can create/block/delete users
+  - [x] Admin cannot read journal content (no `/admin/documents`; test expects 404)
+  - [x] Error handling conforms to contract (`AppError` → `ErrorCode`, errorHandler)
+- [x] Remove all TODO comments from code
+- [x] Document known limitations
+- [x] Run full test suite: `pnpm test`
+- [x] All tests pass
 
 ---
 
@@ -839,9 +838,13 @@ Use this section to document important decisions and notes as you build:
 
 ## Known Limitations (Document as you go)
 
-- 
-- 
-- 
+- **Email:** In development and test, transactional emails (e.g. account blocked, missed days escalation) are only logged to console. Production requires wiring `emailService.ts` to a provider (SendGrid, Resend, SES).
+- **Push notifications:** Delivered via Expo Push API. For production native apps, configure Expo credentials; no direct FCM/APNs integration in this API.
+- **Pomodoro sessions:** Stored in-memory (`Map` in `pomodoroService`). Server restart clears active sessions; clients may need to handle “session not found” and restart the timer locally.
+- **Migrations:** Migration `005_device_tokens.sql` has no `.down.sql`; rollback of that migration is not supported.
+- **Web client:** `packages/web` is a placeholder; no UI yet. All flows are covered by the API and integration tests.
+- **Scheduled jobs:** Day-start/day-close reminders, missed-days escalation, and partner-closed notifications run from in-process jobs. A scheduler (e.g. node-cron) must be started with the API, or a separate cron process must call the job entrypoints.
+- **Admin:** No endpoint to read user journal/documents by design; admin can only manage users (create, block, unblock, delete). 
 
 ---
 

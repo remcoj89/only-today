@@ -7,13 +7,27 @@ import {
 } from "@hemera/shared";
 import { getDayEnd, getDayStart } from "../utils/dateUtils";
 
-export function isDayAvailable(dateKey: string, userTimezone: string): boolean {
+export function isDayAvailable(
+  dateKey: string,
+  userTimezone: string,
+  accountStartDate?: string | null
+): boolean {
+  if (accountStartDate != null && dateKey < accountStartDate) {
+    return false;
+  }
   const dayStart = getDayStart(dateKey, userTimezone);
   const availableAt = subHours(dayStart, DAY_AVAILABLE_HOURS_BEFORE);
   return Date.now() >= availableAt.getTime();
 }
 
-export function isDayEditable(dateKey: string, userTimezone: string): boolean {
+export function isDayEditable(
+  dateKey: string,
+  userTimezone: string,
+  accountStartDate?: string | null
+): boolean {
+  if (accountStartDate != null && dateKey < accountStartDate) {
+    return false;
+  }
   const dayStart = getDayStart(dateKey, userTimezone);
   const dayEnd = getDayEnd(dateKey, userTimezone);
   const editableStart = subHours(dayStart, DAY_AVAILABLE_HOURS_BEFORE);
